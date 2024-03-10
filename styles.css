@@ -1,0 +1,52 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.text-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.word-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+.output:disabled {
+  opacity: 1; /* 투명도를 1로 설정하여 비활성화된 상태일 때도 불투명하게 만듭니다. */
+}
+.input, .output {
+  width: 10%;
+  max-width: 50px;
+  max-height: 50px;
+  padding-bottom: 10%;
+  font-size: 100%;
+  text-align: center;
+  border-radius: 10%;
+}
+
+@media screen and (max-width: 600px) {
+  .input, .output {
+    width: 30%;
+    padding-bottom: 13%;
+    text-align: center;
+    font-size: 100%;
+  }
+}
+
+.underbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#check-btn, #refresh-btn {
+  padding: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
