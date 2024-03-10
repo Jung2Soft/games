@@ -26,9 +26,9 @@
         let ctx = canvas.getContext("2d");
         let ballRadius = 10;
         let x = canvas.width / 2;
-        let y = canvas.height - 30;
-        let dx = 0;
-        let dy = 0;
+        let y = canvas.height - ballRadius; // 바닥 중간부터 시작
+        let dx = 2;
+        let dy = -2;
         let angle = Math.PI / 4; // 초기 각도 (45도)
         let isBallMoving = false;
 
@@ -53,9 +53,15 @@
                 if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
                     dx = -dx;
                 }
-                if (y + dy < ballRadius || y + dy > canvas.height - ballRadius) {
+                if (y + dy < ballRadius) {
+                    dy = -dy;
+                } else if (y + dy > canvas.height - ballRadius) {
                     isBallMoving = false;
+                    // 공이 바닥에 닿으면 멈추도록 설정
                 }
+            }
+            if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
+                dy = -dy;
             }
             requestAnimationFrame(draw);
         }
@@ -75,8 +81,6 @@
         canvas.addEventListener("click", function() {
             if (!isBallMoving) {
                 isBallMoving = true;
-                dx = 2; // 원하는 초기 속도 설정
-                dy = -2;
             }
         });
     </script>
