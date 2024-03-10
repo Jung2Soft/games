@@ -1,67 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Brick Breaker 게임</title>
-  <style>
-    /* CSS 스타일링 */
-    #game-board {
-      width: 600px;
-      height: 400px;
-      border: 1px solid black;
-      position: relative;
-      overflow: hidden;
-    }
-    .brick {
-      width: 50px;
-      height: 20px;
-      background-color: red;
-      position: absolute;
-    }
-    #ball {
-      width: 20px;
-      height: 20px;
-      background-color: blue;
-      position: absolute;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brick Breaker 게임</title>
+    <style>
+        #gameCanvas {
+            border: 1px solid black;
+            display: block;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
-  <div id="game-board">
-    <!-- 게임 보드 -->
-  </div>
-  <script>
-    // JavaScript 코드
-    const gameBoard = document.getElementById('game-board');
-    let ballPosition = { x: 300, y: 200 }; // 초기 공의 위치
-    let ballSpeed = { x: 5, y: 5 }; // 공의 이동 속도
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <script>
+        let canvas = document.getElementById("gameCanvas");
+        let ctx = canvas.getContext("2d");
+        let ballRadius = 10;
+        let x = canvas.width / 2;
+        let y = canvas.height - 30;
+        let dx = 2;
+        let dy = -2;
+        let angle = Math.PI / 4; // 초기 각도 (45도)
 
-    function updateBallPosition() {
-      ballPosition.x += ballSpeed.x;
-      ballPosition.y += ballSpeed.y;
-      document.getElementById('ball').style.left = ballPosition.x + 'px';
-      document.getElementById('ball').style.top = ballPosition.y + 'px';
-    }
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+            ctx.fillStyle = "#0095DD";
+            ctx.fill();
+            ctx.closePath();
+        }
 
-    function checkCollision() {
-      // 벽과의 충돌 감지 및 처리
-      if (ballPosition.x <= 0 || ballPosition.x >= 580) {
-        ballSpeed.x = -ballSpeed.x; // 왼쪽 또는 오른쪽 벽과 충돌
-      }
-      if (ballPosition.y <= 0 || ballPosition.y >= 380) {
-        ballSpeed.y = -ballSpeed.y; // 위쪽 또는 아래쪽 벽과 충돌
-      }
-    }
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBall();
+            x += dx * Math.cos(angle);
+            y += dy * Math.sin(angle);
+            if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+                dx = -dx;
+            }
+            if (y + dy < ballRadius || y + dy > canvas.height - ballRadius) {
+                dy = -dy;
+            }
+            requestAnimationFrame(draw);
+        }
 
-    function gameLoop() {
-      updateBallPosition();
-      checkCollision();
-      requestAnimationFrame(gameLoop);
-    }
+        draw();
 
-    // 게임 시작
-    gameLoop();
-  </script>
+        function touchMoveHandler(e) {
+            if (e.touches.length === 1) {
+                let touchX = e.touches[0].clientX - canvas.offsetLeft;
+                let touchY = e.touches[0].clientY - canvas.offsetTop;
+                angle = Math.atan2(canvas.height - touchY, touchX - canvas.offsetLeft);
+            }
+        }
+
+        canvas.addEventListener("touchmove", touchMoveHandler, false);
+    </script>
 </body>
 </html>
