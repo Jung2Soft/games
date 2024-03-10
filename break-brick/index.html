@@ -5,15 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brick Breaker 게임</title>
     <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
         #gameCanvas {
-            border: 1px solid black;
             display: block;
             margin: auto;
+            background-color: #eee;
         }
     </style>
 </head>
 <body>
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <canvas id="gameCanvas"></canvas>
     <script>
         let canvas = document.getElementById("gameCanvas");
         let ctx = canvas.getContext("2d");
@@ -23,6 +30,10 @@
         let dx = 2;
         let dy = -2;
         let angle = Math.PI / 4; // 초기 각도 (45도)
+
+        // 캔버스 크기 조정
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
         function drawBall() {
             ctx.beginPath();
