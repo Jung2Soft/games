@@ -15,6 +15,7 @@ function handleTouchStart(evt) {
 };                                                
 
 function handleTouchMove(evt) {
+    evt.preventDefault(); // 기본 스크롤 동작 막기
     if ( ! xDown || ! yDown ) {
         return;
     }
