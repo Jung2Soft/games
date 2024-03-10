@@ -72,7 +72,7 @@
             if (!isBallMoving && e.touches.length === 1) {
                 let touchX = e.touches[0].clientX - canvas.offsetLeft;
                 let touchY = e.touches[0].clientY - canvas.offsetTop;
-                angle = Math.atan2(canvas.height - touchY, touchX - canvas.offsetLeft);
+                angle = Math.atan2(canvas.height - y, touchX - x); // 공이 터치한 위치를 향하도록 설정
             }
         }
 
