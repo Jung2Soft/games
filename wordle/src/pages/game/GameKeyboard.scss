@@ -1,0 +1,65 @@
+@import "styles/color";
+
+.game-keyboard {
+  position: relative;
+
+  .game-keyboard-row {
+    display: flex;
+    justify-content: center;
+
+    .tile {
+      flex: 1;
+      height: 58px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 3px;
+      background-color: $key-bg-color;
+      border-radius: 4px;
+      border: 0;
+      font-weight: bold;
+      cursor: pointer;
+
+      @media (max-width: 500px) {
+        font-size: 14px;
+        height: 46px;
+      }
+
+      @media (max-width: 320px) {
+        font-size: 14px;
+        height: 40px;
+      }
+    }
+
+    div.item {
+      cursor: pointer;
+    }
+  }
+
+  .ai {
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+
+.darkmode {
+  .game-keyboard {
+    .game-keyboard-row {
+      .tile {
+        background-color: $dark-key-bg-color;
+      }
+    }
+
+    .ai {
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+  }
+}

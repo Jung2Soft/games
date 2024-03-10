@@ -1,0 +1,84 @@
+@import "styles/color";
+
+.tile {
+  color: #212529 !important;
+
+  &:disabled {
+    color: rgba(#212529, 0.3) !important;
+  }
+
+  &.letter {
+    border: 2px solid $tile-letter-border-color !important;
+  }
+
+  &.empty {
+    border: 2px solid $tile-empty-border-color !important;
+  }
+
+  &.s.evaluation,
+  &.b.evaluation,
+  &.o.evaluation {
+    color: white !important;
+    border: 0 !important;
+  }
+
+  &.s.evaluation {
+    background-color: $tile-green-color !important;
+  }
+
+  &.b.evaluation {
+    background-color: $tile-yellow-color !important;
+  }
+
+  &.o.evaluation {
+    background-color: $tile-gray-color !important;
+  }
+}
+
+.darkmode {
+  .tile {
+    color: white !important;
+
+    &:disabled {
+      color: rgba(white, 0.3) !important;
+    }
+
+    &.letter {
+      border: 2px solid $dark-tile-letter-border-color !important;
+    }
+
+    &.empty {
+      border: 2px solid $dark-tile-empty-border-color !important;
+    }
+
+    &.s.evaluation,
+    &.b.evaluation,
+    &.o.evaluation {
+      border: 0 !important;
+    }
+
+    &.s.evaluation {
+      background-color: $dark-tile-green-color !important;
+    }
+
+    &.b.evaluation {
+      background-color: $dark-tile-yellow-color !important;
+    }
+
+    &.o.evaluation {
+      background-color: $dark-tile-gray-color !important;
+    }
+  }
+}
+
+.contrast {
+  .tile {
+    &.s.evaluation {
+      background-color: $contrast-tile-green-color !important;
+    }
+
+    &.b.evaluation {
+      background-color: $contrast-tile-yellow-color !important;
+    }
+  }
+}

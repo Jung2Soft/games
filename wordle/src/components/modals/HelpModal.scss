@@ -1,0 +1,49 @@
+@import "styles/color";
+
+.help-modal {
+  .modal-body {
+    margin-top: -10px;
+    padding-top: 0;
+
+    section {
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+
+    .examples {
+      .tiles {
+        margin-bottom: 2px;
+        display: flex;
+
+        .tile {
+          width: 40px;
+          height: 40px;
+          margin: 2px;
+          font-weight: 900;
+          font-size: 24px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          &.letter {
+            animation: ani 0.2s;
+          }
+
+          &.jump {
+            animation: jump 1s ease-in-out !important;
+          }
+
+          &.s,
+          &.b,
+          &.o {
+            animation: rotate 0.3s;
+            animation-delay: 0.5s;
+          }
+        }
+      }
+    }
+  }
+}
