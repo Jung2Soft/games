@@ -16,38 +16,38 @@ function handleTouchStart(evt) {
 
 function handleTouchMove(evt) {
     evt.preventDefault(); // 기본 스크롤 동작 막기
-    if ( ! xDown || ! yDown ) {
+
+    if (!xDown || !yDown) {
         return;
     }
 
-    var xUp = evt.touches[0].clientX;                                    
+    var xUp = evt.touches[0].clientX;
     var yUp = evt.touches[0].clientY;
 
     var xDiff = xDown - xUp;
     var yDiff = yDown - yUp;
 
-    if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
-        if ( xDiff > 0 ) {
-            /* left swipe */ 
+    if (Math.abs(xDiff) > Math.abs(yDiff)) {/*most significant*/
+        if (xDiff > 0) {
+            /* left swipe */
             moveDir(2);
         } else {
             /* right swipe */
-            moveDir(3); 
-        }                       
+            moveDir(3);
+        }
     } else {
-        if ( yDiff > 0 ) {
-            /* up swipe */ 
+        if (yDiff > 0) {
+            /* up swipe */
             moveDir(0);
-        } else { 
+        } else {
             /* down swipe */
-            moveDir(1); 
-        }                                                                 
+            moveDir(1);
+        }
     }
     /* reset values */
     xDown = null;
-    yDown = null;                                             
+    yDown = null;
 };
-
 // 나머지 코드는 그대로 유지됩니다.
 // 키보드 입력 처리
 document.onkeydown = keyDownEventHandler;
