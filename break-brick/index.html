@@ -27,9 +27,10 @@
         let ballRadius = 10;
         let x = canvas.width / 2;
         let y = canvas.height - 30;
-        let dx = 2;
-        let dy = -2;
+        let dx = 0;
+        let dy = 0;
         let angle = Math.PI / 4; // 초기 각도 (45도)
+        let isBallMoving = false;
 
         // 캔버스 크기 조정
         canvas.width = window.innerWidth;
@@ -46,13 +47,15 @@
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawBall();
-            x += dx * Math.cos(angle);
-            y += dy * Math.sin(angle);
-            if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
-                dx = -dx;
-            }
-            if (y + dy < ballRadius || y + dy > canvas.height - ballRadius) {
-                dy = -dy;
+            if (isBallMoving) {
+                x += dx * Math.cos(angle);
+                y += dy * Math.sin(angle);
+                if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+                    dx = -dx;
+                }
+                if (y + dy < ballRadius || y + dy > canvas.height - ballRadius) {
+                    isBallMoving = false;
+                }
             }
             requestAnimationFrame(draw);
         }
@@ -60,7 +63,7 @@
         draw();
 
         function touchMoveHandler(e) {
-            if (e.touches.length === 1) {
+            if (!isBallMoving && e.touches.length === 1) {
                 let touchX = e.touches[0].clientX - canvas.offsetLeft;
                 let touchY = e.touches[0].clientY - canvas.offsetTop;
                 angle = Math.atan2(canvas.height - touchY, touchX - canvas.offsetLeft);
@@ -68,6 +71,14 @@
         }
 
         canvas.addEventListener("touchmove", touchMoveHandler, false);
+
+        canvas.addEventListener("click", function() {
+            if (!isBallMoving) {
+                isBallMoving = true;
+                dx = 2; // 원하는 초기 속도 설정
+                dy = -2;
+            }
+        });
     </script>
 </body>
 </html>
