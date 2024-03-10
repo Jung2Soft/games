@@ -16,6 +16,8 @@
             display: block;
             margin: auto;
             background-color: #eee;
+            width: 90vw; /* 화면 너비의 90% */
+            height: 60vh; /* 화면 높이의 60% */
         }
     </style>
 </head>
@@ -27,14 +29,14 @@
         let ballRadius = 10;
         let x = canvas.width / 2;
         let y = canvas.height - ballRadius; // 바닥 중간부터 시작
-        let dx = 2;
-        let dy = -2;
+        let dx = 4; // 속도를 두 배로 설정
+        let dy = -4; // 속도를 두 배로 설정
         let angle = Math.PI / 4; // 초기 각도 (45도)
         let isBallMoving = false;
 
         // 캔버스 크기 조정
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth * 0.9; // 화면의 너비의 90%
+        canvas.height = window.innerHeight * 0.6; // 화면의 높이의 60%
 
         function drawBall() {
             ctx.beginPath();
