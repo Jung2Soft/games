@@ -2,6 +2,52 @@ var board = Array(Array(0,0,0,0),Array(0,0,0,0),Array(0,0,0,0),Array(0,0,0,0));
 var tableID = Array(Array("00","01","02","03"),Array("10","11","12","13"),Array("20","21","22","23"),Array("30","31","32","33"));
 var score;
 
+// 터치 이벤트 처리
+document.addEventListener('touchstart', handleTouchStart, false);        
+document.addEventListener('touchmove', handleTouchMove, false);
+
+var xDown = null;                                                        
+var yDown = null;                                                        
+
+function handleTouchStart(evt) {                                         
+    xDown = evt.touches[0].clientX;                                      
+    yDown = evt.touches[0].clientY;                                      
+};                                                
+
+function handleTouchMove(evt) {
+    if ( ! xDown || ! yDown ) {
+        return;
+    }
+
+    var xUp = evt.touches[0].clientX;                                    
+    var yUp = evt.touches[0].clientY;
+
+    var xDiff = xDown - xUp;
+    var yDiff = yDown - yUp;
+
+    if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+        if ( xDiff > 0 ) {
+            /* left swipe */ 
+            moveDir(2);
+        } else {
+            /* right swipe */
+            moveDir(3); 
+        }                       
+    } else {
+        if ( yDiff > 0 ) {
+            /* up swipe */ 
+            moveDir(0);
+        } else { 
+            /* down swipe */
+            moveDir(1); 
+        }                                                                 
+    }
+    /* reset values */
+    xDown = null;
+    yDown = null;                                             
+};
+
+// 나머지 코드는 그대로 유지됩니다.
 // 키보드 입력 처리
 document.onkeydown = keyDownEventHandler;
 function keyDownEventHandler(e){
