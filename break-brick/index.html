@@ -1,92 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brick Breaker 게임</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-        }
-        #gameCanvas {
-            display: block;
-            margin: auto;
-            background-color: #eee;
-            width: 90vw; /* 화면 너비의 90% */
-            height: 60vh; /* 화면 높이의 60% */
-        }
-    </style>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="swipe.css">
+	<title>Swipe 벽돌깨기 ver 1.0</title>
 </head>
+
 <body>
-    <canvas id="gameCanvas"></canvas>
-    <script>
-        let canvas = document.getElementById("gameCanvas");
-        let ctx = canvas.getContext("2d");
-        let ballRadius = 10;
-        let x = canvas.width / 2;
-        let y = canvas.height - ballRadius; // 바닥 중간부터 시작
-        let dx = 4; // 속도를 두 배로 설정
-        let dy = -4; // 속도를 두 배로 설정
-        let angle = Math.PI / 4; // 초기 각도 (45도)
-        let isBallMoving = false;
-
-        // 캔버스 크기 조정
-        canvas.width = window.innerWidth * 0.9; // 화면의 너비의 90%
-        canvas.height = window.innerHeight * 0.6; // 화면의 높이의 60%
-
-        function drawBall() {
-            ctx.beginPath();
-            ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-            ctx.fillStyle = "#0095DD";
-            ctx.fill();
-            ctx.closePath();
-        }
-
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawBall();
-            if (isBallMoving) {
-                x += dx * Math.cos(angle);
-                y += dy * Math.sin(angle);
-                if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
-                    dx = -dx;
-                }
-                if (y + dy < ballRadius) {
-                    dy = -dy;
-                } else if (y + dy > canvas.height - ballRadius) {
-                    isBallMoving = false;
-                    // 공이 바닥에 닿으면 멈추도록 설정
-                }
-            }
-            if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
-                dy = -dy;
-            }
-            requestAnimationFrame(draw);
-        }
-
-        draw();
-
-        function touchMoveHandler(e) {
-            if (!isBallMoving && e.touches.length === 1) {
-                let touchX = e.touches[0].clientX - canvas.offsetLeft;
-                let touchY = e.touches[0].clientY - canvas.offsetTop;
-                let relativeX = touchX - x;
-                let relativeY = touchY - y;
-                angle = Math.atan2(relativeY, relativeX); // 공이 터치한 위치를 향하도록 설정
-            }
-        }
-
-        canvas.addEventListener("touchmove", touchMoveHandler, false);
-
-        canvas.addEventListener("click", function() {
-            if (!isBallMoving) {
-                isBallMoving = true;
-            }
-        });
-    </script>
+	<div id="game-title">Swipe 벽돌깨기 <small>ver 1.0</small></div>
+	<div class="score-container">
+		<div class="score">Score: 0</div>
+	</div>
+	<div class="container">
+		<div class="leaderboard" id="lb-global">
+			<div class="lb_item title center">🏆✨명예의 전당✨🏆</div>
+			<div class="lb_content">
+				<div class="lb_item">
+					<div class="rank">🥇</div>
+					<div class="name"></div>
+					<div class="score"></div>
+				</div>
+				<div class="lb_item">
+					<div class="rank">🥈</div>
+					<div class="name"></div>
+					<div class="score"></div>
+				</div>
+				<div class="lb_item">
+					<div class="rank">🥉</div>
+					<div class="name"></div>
+					<div class="score"></div>
+				</div>
+				<div class="lb_item">
+					<div class="num">4</div>
+					<div class="name"></div>
+					<div class="score"></div>
+				</div>
+				<div class="lb_item">
+					<div class="num">5</div>
+					<div class="name"></div>
+					<div class="score"></div>
+				</div>
+			</div>
+		</div>
+		<div class="game-container">
+			<hr class="guideline hidden">
+			<div class="ball guide hidden"></div>
+			<hr class="death-barrier">
+			<div class="hidden" id="gameover-overlay">
+				<div class="gameover-title">Game Over!</div>
+				<div class="gameover-score">Score: <span id="score"></span>
+				</div>
+				<form class="scoreForm" id="scoreForm">
+					<input type="text" id="name" required maxlength=12 placeholder="등록할 닉네임을 입력하세요!"></input>
+					<button type="submit" form="scoreForm">등록</button>
+				</form>
+				<div class="gameover-text">F5키로 다시 시작</div>
+			</div>
+		</div>
+		<div class="leaderboard" id="lb-month">
+			<div class="lb_item title">이달의 최고기록<small>(매달 초기화)</small></div>
+			<div class="lb_content">
+				<div class="lb_item no-data hidden">
+					기록이 없습니다.
+				</div>
+			</div>
+		</div>
+	</div>
+	<center id="gameover-text"></center>
+	<script src="swipe.js" type="text/javascript"></script>
 </body>
+
 </html>
