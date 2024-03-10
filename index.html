@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>워들 게임</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>워들!</h1>
+    <div class="word-align">
+      <div class="word-input">
+        <input class="input" maxlength="1" pattern="[a-zA-Z]">
+        <input class="input" maxlength="1" pattern="[a-zA-Z]">
+        <input class="input" maxlength="1" pattern="[a-zA-Z]">
+        <input class="input" maxlength="1" pattern="[a-zA-Z]">
+        <input class="input" maxlength="1" pattern="[a-zA-Z]">
+      </div>
+    </div>
+  <div class="text-container">
+     <h5>시도한 횟수:  </h5><h5 id="tryCountDisplay">0</h5>
+  </div>
+    <div class="underbar">
+      <button id="check-btn">제출</button>
+      <button id="refresh-btn">다시하기</button>
+    </div>
+    <h5>단어를 맞춰보세요!</h5>
+
+    <script src="script.js"></script>
+</body>
+</html>
