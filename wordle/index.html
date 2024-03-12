@@ -30,16 +30,18 @@
 
 	<body><noscript>You need to enable JavaScript to run this app.</noscript>
 		<div id="root"></div>
+		<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 		<script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-  		<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-  		<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+		<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+		
+		<!-- React Router 로드 -->
+		<script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+		
+		<!-- Redux 및 기타 라이브러리 로드 -->
+		<!-- 필요에 따라 추가 -->
+		
+		<!-- TSX 파일 로드 및 렌더링 -->
 		<script type="text/babel" src="src/index.tsx"></script>
-  		<script type="text/babel">
-    		ReactDOM.render(
-      			React.createElement(index),
-      			document.getElementById('root')
-    		);
-  		</script>
 	</body>
 
 </html>
