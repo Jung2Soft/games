@@ -1,32 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>워들 게임</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <h1>워들!</h1>
-    <div class="word-align">
-      <div class="word-input">
-        <input class="input" maxlength="1" pattern="[a-zA-Z]">
-        <input class="input" maxlength="1" pattern="[a-zA-Z]">
-        <input class="input" maxlength="1" pattern="[a-zA-Z]">
-        <input class="input" maxlength="1" pattern="[a-zA-Z]">
-        <input class="input" maxlength="1" pattern="[a-zA-Z]">
-      </div>
-    </div>
-  <div class="text-container">
-     <h5>시도한 횟수:  </h5><h5 id="tryCountDisplay">0</h5>
-  </div>
-    <div class="underbar">
-      <button id="check-btn">제출</button>
-      <button id="refresh-btn">다시하기</button>
-    </div>
-    <h5>단어를 맞춰보세요!</h5>
-
-    <script src="script.js"></script>
-</body>
+<!doctype html>
+<html lang="ko">
+    <head><meta charset="utf-8"/><link rel="icon" href="/favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><meta name="description" content="한글 Wordle를 무한으로 즐길 수 있는 워들 사이트입니다. (5자/6자/7자/배틀워들)"/><link rel="apple-touch-icon" href="/logo192.png"/><link rel="manifest" href="/manifest.json"/><title>무한워들 한글5자</title>
+        <script type="text/javascript">
+        <script defer="defer" src="script.js"></script>
+        <link href="style.css" rel="stylesheet"></head>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+    </body>
 </html>
