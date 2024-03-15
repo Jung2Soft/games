@@ -17,6 +17,7 @@ function generateRandomNumber() {
 
     return randomNum;
 }
+document.getElementById("checkButton").addEventListener("click", checkGuess);
 
 function checkGuess() {
     var input1 = document.getElementById("input1").value;
