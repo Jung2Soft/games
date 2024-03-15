@@ -87,3 +87,19 @@ document.getElementById("input4").addEventListener("input", function() {
         document.getElementById("input3").focus();
     }
 });
+
+var inputs = document.querySelectorAll('.input');
+
+for (var i = 0; i < inputs.length; i++) {
+    inputs[i].addEventListener('input', function() {
+        var maxLength = parseInt(this.getAttribute('maxlength'));
+        var currentLength = this.value.length;
+
+        if (currentLength >= maxLength) {
+            var nextIndex = Array.prototype.indexOf.call(inputs, this) + 1;
+            if (nextIndex < inputs.length) {
+                inputs[nextIndex].focus();
+            }
+        }
+    });
+}
