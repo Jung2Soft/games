@@ -6,7 +6,7 @@ var chances = 10; // 맞출 수 있는 기회
 var randomNumber = generateRandomNumber();
 
 function generateRandomNumber() {
-    var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     var randomNum = '';
 
     for (var i = 0; i < 4; i++) {
