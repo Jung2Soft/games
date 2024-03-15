@@ -20,7 +20,9 @@ for (var i = 0; i < inputs.length; i++) {
     });
 
     inputs[i].addEventListener('keydown', function(e) {
-        if (!/^\d$/.test(e.key) && e.key !== "Backspace" && e.key !== "Delete" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
+        var isNumber = /^\d$/.test(e.key);
+    
+        if (!isNumber && e.key !== "Backspace" && e.key !== "Delete" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
             e.preventDefault();
             showToast("숫자만 입력하세요.");
         }
