@@ -108,6 +108,8 @@ document.getElementById("input4").addEventListener("input", function() {
     }
 });
 
+// JavaScript 파일(game.js)
+
 var inputs = document.querySelectorAll('.input');
 
 for (var i = 0; i < inputs.length; i++) {
@@ -120,6 +122,13 @@ for (var i = 0; i < inputs.length; i++) {
             if (nextIndex < inputs.length) {
                 inputs[nextIndex].focus();
             }
+        }
+    });
+
+    inputs[i].addEventListener('keydown', function(e) {
+        // 입력된 키가 숫자가 아니면 이벤트를 취소
+        if (e.key.length !== 1 || !/\d/.test(e.key)) {
+            e.preventDefault();
         }
     });
 }
