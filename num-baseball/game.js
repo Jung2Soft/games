@@ -74,10 +74,11 @@ function compareNumbers(guess, target) {
     }
     return { strike: strike, ball: ball };
 }
-
-function displayResult(result) {
+function displayResult(result, guess) {
     var resultDiv = document.getElementById("result");
-    resultDiv.innerHTML += "<p>Strike: " + result.strike + ", Ball: " + result.ball + "</p>";
+    var guessString = "<span class='guess'>" + guess + "</span>";
+    var resultString = "<span class='result'>Strike: " + result.strike + ", Ball: " + result.ball + "</span>";
+    resultDiv.innerHTML += "<p>" + guessString + " - " + resultString + "</p>";
 }
 
 function resetGame() {
@@ -108,8 +109,6 @@ document.getElementById("input4").addEventListener("input", function() {
     }
 });
 
-// JavaScript 파일(game.js)
-
 var inputs = document.querySelectorAll('.input');
 
 for (var i = 0; i < inputs.length; i++) {
@@ -126,8 +125,8 @@ for (var i = 0; i < inputs.length; i++) {
     });
 
     inputs[i].addEventListener('keydown', function(e) {
-        // 입력된 키가 숫자가 아니면 이벤트를 취소
-        if (e.key.length !== 1 || !/\d/.test(e.key)) {
+        // 입력된 키가 숫자가 아니고 백스페이스 키도 아니라면 이벤트를 취소
+        if ((e.key.length !== 1 || !/\d/.test(e.key)) && e.key !== "Backspace" && e.key !== "Delete") {
             e.preventDefault();
         }
     });
