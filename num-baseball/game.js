@@ -88,11 +88,12 @@ for (var i = 0; i < inputs.length; i++) {
     inputs[i].addEventListener('input', function() {
         handleInput(this);
     });
-
+    
     inputs[i].addEventListener('keydown', function(e) {
         var isNumber = /^\d$/.test(e.key);
+        var isNavigationalKey = e.key === "Backspace" || e.key === "Delete" || e.key === "ArrowLeft" || e.key === "ArrowRight";
     
-        if (!isNumber && e.key !== "Backspace" && e.key !== "Delete" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
+        if (!isNumber && !isNavigationalKey) {
             e.preventDefault();
             showToast("숫자만 입력하세요.");
         }
