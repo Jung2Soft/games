@@ -6,6 +6,12 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    flex-direction: column; /* 세로 정렬을 위해 column으로 설정 */
+}
+
+.title {
+    font-size: 2em;
+    margin-bottom: 20px; /* 게임 칸과의 간격을 조정 */
 }
 
 .container {
@@ -14,6 +20,9 @@ body {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 게임 칸을 수평으로 정렬하기 위해 center로 설정 */
 }
 
 .input-container {
