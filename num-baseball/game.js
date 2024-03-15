@@ -1,5 +1,7 @@
 // JavaScript 파일(game.js)
 
+// JavaScript 파일(game.js)
+
 var inputs = document.querySelectorAll('.input');
 var previousInputs = ['', '', '', '']; // 이전 입력 추적을 위한 배열
 
@@ -17,6 +19,13 @@ for (var i = 0; i < inputs.length; i++) {
     });
 
     inputs[i].addEventListener('keydown', function(e) {
+        if (e.key === "Backspace") {
+            var currentIndex = Array.prototype.indexOf.call(inputs, this);
+            if (currentIndex > 0 && this.value === '') {
+                inputs[currentIndex - 1].focus();
+            }
+        }
+
         // 입력된 키가 숫자가 아니고 백스페이스 키도 아니라면 이벤트를 취소
         if ((e.key.length !== 1 || !/\d/.test(e.key)) && e.key !== "Backspace" && e.key !== "Delete") {
             e.preventDefault();
@@ -37,6 +46,12 @@ for (var i = 0; i < inputs.length; i++) {
             this.value = '';
         } else {
             previousInputs[index] = currentInput;
+        }
+
+        // 다음 인풋에 숫자가 없을 때 현재 입력값을 다음 인풋에 입력
+        if (index < inputs.length - 1 && currentInput !== '' && inputs[index + 1].value === '') {
+            inputs[index + 1].value = currentInput;
+            inputs[index + 1].focus();
         }
     });
 }
