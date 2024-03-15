@@ -97,6 +97,20 @@ for (var i = 0; i < inputs.length; i++) {
             e.preventDefault();
             showToast("숫자만 입력하세요.");
         }
+    
+        // 백스페이스 키를 눌렀을 때 이전 입력 칸으로 포커스 이동
+        if ((e.key === "Backspace" || e.key === "Delete") && this.value === '' && this !== inputs[inputs.length - 1]) {
+            var currentIndex = Array.prototype.indexOf.call(inputs, this);
+            if (currentIndex > 0) {
+                inputs[currentIndex - 1].focus();
+            }
+        } else if (e.key === "ArrowLeft" && this.selectionStart === 0 && this !== inputs[0]) { // 왼쪽 화살표를 눌렀을 때
+            var currentIndex = Array.prototype.indexOf.call(inputs, this);
+            inputs[currentIndex - 1].focus();
+        } else if (e.key === "ArrowRight" && this.selectionStart === this.value.length && this !== inputs[inputs.length - 1]) { // 오른쪽 화살표를 눌렀을 때
+            var currentIndex = Array.prototype.indexOf.call(inputs, this);
+            inputs[currentIndex + 1].focus();
+        }
     });
 
     inputs[i].addEventListener('input', function() {
