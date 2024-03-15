@@ -84,6 +84,29 @@ function handleResetGame() {
 var inputs = document.querySelectorAll('.input');
 var previousInputs = ['', '', '', '']; // 이전 입력 추적을 위한 배열
 
+
+function handleInput(inputElement) {
+    var index = Array.prototype.indexOf.call(inputs, inputElement);
+    var currentInput = inputElement.value;
+
+    // 입력값 변경 시 이전 입력 업데이트
+    previousInputs[index] = currentInput;
+
+    // 입력값이 최대 길이에 도달하면 다음 입력칸으로 이동
+    if (currentInput.length >= inputElement.maxLength) {
+        var nextIndex = index + 1;
+        if (nextIndex < inputs.length) {
+            inputs[nextIndex].focus();
+        }
+    }
+
+    // 백스페이스 키를 눌렀을 때 뒤로 포커스 이동
+    if ((event.keyCode === 8 || event.keyCode === 46) && currentInput === '' && index > 0) {
+        inputs[index - 1].focus();
+    }
+}
+
+
 for (var i = 0; i < inputs.length; i++) {
     inputs[i].addEventListener('input', function() {
         handleInput(this);
@@ -96,20 +119,6 @@ for (var i = 0; i < inputs.length; i++) {
         if (!isNumber && !isNavigationalKey) {
             e.preventDefault();
             showToast("숫자만 입력하세요.");
-        }
-    
-        // 백스페이스 키를 눌렀을 때 이전 입력 칸으로 포커스 이동
-        if ((e.key === "Backspace" || e.key === "Delete") && this.value === '' && this !== inputs[inputs.length - 1]) {
-            var currentIndex = Array.prototype.indexOf.call(inputs, this);
-            if (currentIndex > 0) {
-                inputs[currentIndex - 1].focus();
-            }
-        } else if (e.key === "ArrowLeft" && this.selectionStart === 0 && this !== inputs[0]) { // 왼쪽 화살표를 눌렀을 때
-            var currentIndex = Array.prototype.indexOf.call(inputs, this);
-            inputs[currentIndex - 1].focus();
-        } else if (e.key === "ArrowRight" && this.selectionStart === this.value.length && this !== inputs[inputs.length - 1]) { // 오른쪽 화살표를 눌렀을 때
-            var currentIndex = Array.prototype.indexOf.call(inputs, this);
-            inputs[currentIndex + 1].focus();
         }
     });
 
@@ -136,6 +145,13 @@ function generateRandomNumber() {
     return randomNum;
 }
 
+
+function handleCorrectGuess() {
+    showToast("축하합니다! 정답을 맞췄습니다.");
+    resetGame();
+}
+
+
 function checkGuess() {
     var input1 = document.getElementById("input1").value;
     var input2 = document.getElementById("input2").value;
@@ -144,19 +160,22 @@ function checkGuess() {
 
     var guess = input1 + input2 + input3 + input4;
 
-    if (guess.length !== 4 || !/^\d{4}$/.test(guess)) {
-        showToast("4자리 숫자를 입력하세요.");
-        return;
-    }
+    // 사용자 입력이 정답과 일치하는지 확인
+    if (guess === randomNumber) {
+        handleCorrectGuess(); // 정답을 맞췄을 때 처리
+    } else {
+        // 정답이 아닌 경우, 결과 표시
+        var result = compareNumbers(guess, randomNumber);
+        displayResult(result, guess);
 
-    // 맞출 수 있는 기회 감소
-    chances--;
+        // 맞출 수 있는 기회 감소
+        chances--;
 
-    // 기회 소진 시 게임 종료
-    if (chances === 0) {
-        showToast("게임 오버! 정답은 " + randomNumber + " 입니다.");
-        resetGame();
-        return;
+        // 기회 소진 시 게임 종료
+        if (chances === 0) {
+            showToast("게임 오버! 정답은 " + randomNumber + " 입니다.");
+            resetGame();
+        }
     }
 
     // 중복된 숫자 체크 및 결과 표시
@@ -198,4 +217,5 @@ function resetGame() {
     randomNumber = generateRandomNumber();
     document.getElementById("result").innerHTML = "";
     previousInputs = ['', '', '', ''];
+    document.getElementById("input1").focus();
 }
