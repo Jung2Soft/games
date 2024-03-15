@@ -1,22 +1,92 @@
 var inputs = document.querySelectorAll('.input');
 var previousInputs = ['', '', '', '']; // 이전 입력 추적을 위한 배열
 
+function validateInput(input) {
+    return /^\d$/.test(input); // 입력이 숫자인지 확인
+}
+
+function showToast(message) {
+    var toast = document.getElementById("toast");
+    toast.innerText = message;
+    toast.classList.add("show");
+
+    setTimeout(function() {
+        toast.classList.remove("show");
+    }, 3000);
+}
+
+function hasDuplicates(input) {
+    return (/([0-9]).*?\1/).test(input); // 중복된 숫자가 있는지 확인
+}
+
+// 인풋 이벤트 핸들러
+function handleInput(inputElement) {
+    var index = Array.prototype.indexOf.call(inputs, inputElement);
+    var currentInput = inputElement.value;
+
+    // 입력값 변경 시 이전 입력 업데이트
+    previousInputs[index] = currentInput;
+
+    // 입력값이 최대 길이에 도달하면 다음 입력칸으로 이동
+    if (currentInput.length >= inputElement.maxLength) {
+        var nextIndex = index + 1;
+        if (nextIndex < inputs.length) {
+            inputs[nextIndex].focus();
+        }
+    }
+}
+
+// 입력값 검증 및 처리
+function processInput(inputElement) {
+    var currentInput = inputElement.value;
+
+    if (currentInput === '0') {
+        inputElement.value = '';
+        showToast("0은 입력할 수 없습니다. 다른 숫자를 입력하세요.");
+        return;
+    }
+
+    if (!validateInput(currentInput)) {
+        showToast("숫자만 입력하세요.");
+        inputElement.value = '';
+        return;
+    }
+
+    if (hasDuplicates(currentInput)) {
+        showToast("이미 사용한 숫자입니다. 다른 숫자를 입력하세요.");
+        inputElement.value = '';
+        return;
+    }
+
+    var index = Array.prototype.indexOf.call(inputs, inputElement);
+    if (index === inputs.length - 1 && currentInput !== '') {
+        checkGuess();
+    }
+
+    // 중복 확인 후에 다음 인풋에 숫자가 없을 때 현재 입력값을 다음 인풋에 입력
+    if (!previousInputs.includes(currentInput) && index < inputs.length - 1 && currentInput !== '' && inputs[index + 1].value === '') {
+        inputs[index + 1].value = currentInput;
+        inputs[index + 1].focus();
+    }
+}
+
+// 게임 확인 버튼 클릭 시 처리
+function handleCheckGuess() {
+    checkGuess(); // 게임 로직 호출
+}
+
+// 게임 리셋 처리
+function handleResetGame() {
+    resetInputs(); // 사용자 입력 초기화
+    resetGame(); // 게임 리셋
+}
+
+var inputs = document.querySelectorAll('.input');
+var previousInputs = ['', '', '', '']; // 이전 입력 추적을 위한 배열
+
 for (var i = 0; i < inputs.length; i++) {
     inputs[i].addEventListener('input', function() {
-        var maxLength = parseInt(this.getAttribute('maxlength'));
-        var currentLength = this.value.length;
-        var index = Array.prototype.indexOf.call(inputs, this);
-        var currentInput = this.value;
-
-        // 입력값 변경 시 이전 입력 업데이트
-        previousInputs[index] = currentInput;
-
-        if (currentLength >= maxLength) {
-            var nextIndex = index + 1;
-            if (nextIndex < inputs.length) {
-                inputs[nextIndex].focus();
-            }
-        }
+        handleInput(this);
     });
 
     inputs[i].addEventListener('keydown', function(e) {
@@ -29,36 +99,11 @@ for (var i = 0; i < inputs.length; i++) {
     });
 
     inputs[i].addEventListener('input', function() {
-        var index = Array.prototype.indexOf.call(inputs, this);
-        var currentInput = this.value;
-    
-        if (currentInput === '0') {
-            this.value = '';
-            showToast("0은 입력할 수 없습니다. 다른 숫자를 입력하세요.");
-            return;
-        }
-    
-        if (previousInputs.includes(currentInput)) {
-            showToast("이미 사용한 숫자입니다. 다른 숫자를 입력하세요.");
-            this.value = '';
-            return; // 중복된 경우 다음 입력칸으로 이동하지 않음
-        } else {
-            previousInputs[index] = currentInput;
-        }
-    
-        if (index === inputs.length - 1 && currentInput !== '') {
-            checkGuess();
-        }
-    
-        // 중복 확인 후에 다음 인풋에 숫자가 없을 때 현재 입력값을 다음 인풋에 입력
-        if (!previousInputs.includes(currentInput) && index < inputs.length - 1 && currentInput !== '' && inputs[index + 1].value === '') {
-            inputs[index + 1].value = currentInput;
-            inputs[index + 1].focus();
-        }
+        processInput(this);
     });
 }
 
-document.getElementById("checkButton").addEventListener("click", checkGuess);
+document.getElementById("checkButton").addEventListener("click", handleCheckGuess);
 
 var chances = 10; // 맞출 수 있는 기회
 var randomNumber = generateRandomNumber(); // 랜덤으로 4자리 숫자 생성
@@ -109,18 +154,12 @@ function checkGuess() {
     var result = compareNumbers(guess, randomNumber);
     displayResult(result, guess);
 }
-
-function hasDuplicates(str) {
-    return (/([0-9]).*?\1/).test(str);
-}
-
 function resetInputs() {
     for (var i = 0; i < inputs.length; i++) {
         inputs[i].value = "";
         previousInputs[i] = "";
     }
 }
-
 function compareNumbers(guess, target) {
     var strike = 0;
     var ball = 0;
@@ -133,27 +172,15 @@ function compareNumbers(guess, target) {
     }
     return { strike: strike, ball: ball };
 }
-
 function displayResult(result, guess) {
     var resultDiv = document.getElementById("result");
     var guessString = "<span class='guess'>" + guess.toString() + "</span>";
     var resultString = "<span class='result'>Strike: " + result.strike + ", Ball: " + result.ball + "</span>";
     resultDiv.innerHTML += "<p>" + guessString + " - " + resultString + "</p>";
 }
-
 function resetGame() {
     chances = 10;
     randomNumber = generateRandomNumber();
     document.getElementById("result").innerHTML = "";
     previousInputs = ['', '', '', ''];
-}
-
-function showToast(message) {
-    var toast = document.getElementById("toast");
-    toast.innerText = message;
-    toast.classList.add("show");
-
-    setTimeout(function() {
-        toast.classList.remove("show");
-    }, 3000);
 }
