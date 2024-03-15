@@ -22,6 +22,7 @@ for (var i = 0; i < inputs.length; i++) {
     inputs[i].addEventListener('keydown', function(e) {
         if (!/^\d$/.test(e.key) && e.key !== "Backspace" && e.key !== "Delete" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
             e.preventDefault();
+            showToast("숫자만 입력하세요.");
         }
     });
 
@@ -30,8 +31,9 @@ for (var i = 0; i < inputs.length; i++) {
         var currentInput = this.value;
 
         if (currentInput === '0') {
-            alert("0은 입력할 수 없습니다. 다른 숫자를 입력하세요.");
             this.value = '';
+            showToast("0은 입력할 수 없습니다. 다른 숫자를 입력하세요.");
+            return;
         }
 
         // 중복 확인 제거
@@ -75,7 +77,7 @@ function checkGuess() {
     var guess = input1 + input2 + input3 + input4;
 
     if (guess.length !== 4 || !/^\d{4}$/.test(guess)) {
-        alert("4자리 숫자를 입력하세요.");
+        showToast("4자리 숫자를 입력하세요.");
         return;
     }
 
@@ -84,14 +86,14 @@ function checkGuess() {
 
     // 기회 소진 시 게임 종료
     if (chances === 0) {
-        document.getElementById("result").innerHTML += "<p>게임 오버! 정답은 " + randomNumber + " 입니다.</p>";
+        showToast("게임 오버! 정답은 " + randomNumber + " 입니다.");
         resetGame();
         return;
     }
 
     // 중복된 숫자 체크 및 결과 표시
     if (hasDuplicates(guess)) {
-        alert("숫자가 중복되었습니다. 다시 입력해주세요.");
+        showToast("숫자가 중복되었습니다. 다시 입력해주세요.");
         resetInputs();
         return;
     }
@@ -136,4 +138,14 @@ function resetGame() {
     randomNumber = generateRandomNumber();
     document.getElementById("result").innerHTML = "";
     previousInputs = ['', '', '', ''];
+}
+
+function showToast(message) {
+    var toast = document.getElementById("toast");
+    toast.innerText = message;
+    toast.classList.add("show");
+
+    setTimeout(function() {
+        toast.classList.remove("show");
+    }, 3000);
 }
