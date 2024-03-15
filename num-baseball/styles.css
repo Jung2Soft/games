@@ -12,6 +12,7 @@ body {
 .title {
     font-size: 2em;
     margin-bottom: 20px;
+    text-align: center; /* 텍스트를 가운데 정렬합니다. */
 }
 
 .container {
