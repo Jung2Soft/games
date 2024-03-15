@@ -1,20 +1,22 @@
+// JavaScript 파일(game.js)
+
 var chances = 10; // 맞출 수 있는 기회
 
 // 랜덤으로 4자리 숫자 생성
 var randomNumber = generateRandomNumber();
 
 function generateRandomNumber() {
-    var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     var randomNum = '';
+
     for (var i = 0; i < 4; i++) {
         var index = Math.floor(Math.random() * numbers.length);
         randomNum += numbers[index];
-        numbers.splice(index, 1);
+        numbers.splice(index, 1); // 선택된 숫자를 배열에서 제거
     }
+
     return randomNum;
 }
-
-document.getElementById("checkButton").addEventListener("click", checkGuess);
 
 function checkGuess() {
     var input1 = document.getElementById("input1").value;
@@ -29,6 +31,13 @@ function checkGuess() {
         return;
     }
 
+    // 중복된 숫자 체크
+    if (hasDuplicates(guess)) {
+        alert("숫자가 중복되었습니다. 다시 입력해주세요.");
+        resetInputs();
+        return;
+    }
+
     var result = compareNumbers(guess, randomNumber);
     displayResult(result);
 
@@ -39,6 +48,16 @@ function checkGuess() {
     if (chances === 0) {
         alert("게임 오버! 정답은 " + randomNumber + " 입니다.");
         resetGame();
+    }
+}
+
+function hasDuplicates(str) {
+    return (/([0-9]).*?\1/).test(str);
+}
+
+function resetInputs() {
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].value = "";
     }
 }
 
