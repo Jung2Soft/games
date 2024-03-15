@@ -29,21 +29,27 @@ for (var i = 0; i < inputs.length; i++) {
     inputs[i].addEventListener('input', function() {
         var index = Array.prototype.indexOf.call(inputs, this);
         var currentInput = this.value;
-
+    
         if (currentInput === '0') {
             this.value = '';
             showToast("0은 입력할 수 없습니다. 다른 숫자를 입력하세요.");
             return;
         }
-
-        // 중복 확인 제거
-
+    
+        if (previousInputs.includes(currentInput)) {
+            showToast("이미 사용한 숫자입니다. 다른 숫자를 입력하세요.");
+            this.value = '';
+            return; // 중복된 경우 다음 입력칸으로 이동하지 않음
+        } else {
+            previousInputs[index] = currentInput;
+        }
+    
         if (index === inputs.length - 1 && currentInput !== '') {
             checkGuess();
         }
-
-        // 다음 인풋에 숫자가 없을 때 현재 입력값을 다음 인풋에 입력
-        if (index < inputs.length - 1 && currentInput !== '' && inputs[index + 1].value === '') {
+    
+        // 중복 확인 후에 다음 인풋에 숫자가 없을 때 현재 입력값을 다음 인풋에 입력
+        if (!previousInputs.includes(currentInput) && index < inputs.length - 1 && currentInput !== '' && inputs[index + 1].value === '') {
             inputs[index + 1].value = currentInput;
             inputs[index + 1].focus();
         }
