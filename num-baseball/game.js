@@ -5,9 +5,14 @@ for (var i = 0; i < inputs.length; i++) {
     inputs[i].addEventListener('input', function() {
         var maxLength = parseInt(this.getAttribute('maxlength'));
         var currentLength = this.value.length;
+        var index = Array.prototype.indexOf.call(inputs, this);
+        var currentInput = this.value;
+
+        // 입력값 변경 시 이전 입력 업데이트
+        previousInputs[index] = currentInput;
 
         if (currentLength >= maxLength) {
-            var nextIndex = Array.prototype.indexOf.call(inputs, this) + 1;
+            var nextIndex = index + 1;
             if (nextIndex < inputs.length) {
                 inputs[nextIndex].focus();
             }
@@ -29,12 +34,8 @@ for (var i = 0; i < inputs.length; i++) {
             this.value = '';
         }
 
-        if (previousInputs.includes(currentInput)) {
-            alert("이미 사용한 숫자입니다. 다른 숫자를 입력하세요.");
-            this.value = '';
-        } else {
-            previousInputs[index] = currentInput;
-        }
+        // 중복 확인 제거
+
         if (index === inputs.length - 1 && currentInput !== '') {
             checkGuess();
         }
@@ -78,7 +79,17 @@ function checkGuess() {
         return;
     }
 
-    // 중복된 숫자 체크
+    // 맞출 수 있는 기회 감소
+    chances--;
+
+    // 기회 소진 시 게임 종료
+    if (chances === 0) {
+        document.getElementById("result").innerHTML += "<p>게임 오버! 정답은 " + randomNumber + " 입니다.</p>";
+        resetGame();
+        return;
+    }
+
+    // 중복된 숫자 체크 및 결과 표시
     if (hasDuplicates(guess)) {
         alert("숫자가 중복되었습니다. 다시 입력해주세요.");
         resetInputs();
@@ -87,15 +98,6 @@ function checkGuess() {
 
     var result = compareNumbers(guess, randomNumber);
     displayResult(result, guess);
-
-    // 맞출 수 있는 기회 감소
-    chances--;
-
-    // 기회 소진 시 게임 종료
-    if (chances === 0) {
-        document.getElementById("result").innerHTML += "<p>게임 오버! 정답은 " + randomNumber + " 입니다.</p>";
-        resetGame();
-    }
 }
 
 function hasDuplicates(str) {
