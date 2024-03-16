@@ -34,6 +34,7 @@ function hasDuplicates() {
 
 // 입력값 검증 및 처리
 function processInput(inputElement) {
+    var index = Array.prototype.indexOf.call(inputs, inputElement);
     var currentInput = inputElement.value;
 
     if (currentInput === '0') {
