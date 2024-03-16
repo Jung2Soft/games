@@ -33,8 +33,7 @@ function hasDuplicates() {
 }
 
 // 입력값 검증 및 처리
-function processInput(inputElement) {
-    var index = Array.prototype.indexOf.call(inputs, inputElement);
+function processInput(inputElement) {;
     var currentInput = inputElement.value;
 
     if (currentInput === '0') {
@@ -47,12 +46,6 @@ function processInput(inputElement) {
         showToast("이미 사용한 숫자입니다. 다른 숫자를 입력하세요.");
         inputElement.value = '';
         return;
-    }
-
-    // 중복 확인 후에 다음 인풋에 숫자가 없을 때 현재 입력값을 다음 인풋에 입력
-    if (!hasDuplicates() && index < inputs.length - 1 && currentInput !== '' && inputs[index + 1].value === '') {
-        inputs[index + 1].value = currentInput;
-        inputs[index + 1].focus();
     }
 }
 
@@ -75,13 +68,17 @@ function handleInput(inputElement) {
     inputElement.addEventListener('keydown', function(e) {
         var BS_Press = e.key === "Backspace";
         // 백스페이스 키를 눌렀을 때 뒤로 포커스 이동
-        if (currentInput.length === 0) {
+        if (currentInput.length === 0 && !inputElement === 'input1') {
             if (BS_Press) {
                 var preIndex = index - 1;
                 inputs[preIndex].focus();
             }
         }
     });
+    // 중복 확인 후에 다음 인풋에 포커스
+    if (!hasDuplicates() && !inputElement === 'input4') {
+        inputs[index + 1].focus();
+    }
 }
 
 
