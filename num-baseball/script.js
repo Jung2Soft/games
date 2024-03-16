@@ -1,9 +1,6 @@
 var inputs = document.querySelectorAll('.input');
 var previousInputs = ['', '', '', '']; // 이전 입력 추적을 위한 배열
-
-function validateInput(input) {
-    return /^\d$/.test(input); // 입력이 숫자인지 확인
-}
+var chances_lock = 10;// 맞출 수 있는 기회
 
 function showToast(message) {
     var toast = document.getElementById("toast");
@@ -15,8 +12,25 @@ function showToast(message) {
     }, 3000);
 }
 
-function hasDuplicates(input) {
-    return (/([0-9]).*?\1/).test(input); // 중복된 숫자가 있는지 확인
+function hasDuplicates() {
+    var input1 = document.getElementById("input1").value;
+    var input2 = document.getElementById("input2").value;
+    var input3 = document.getElementById("input3").value;
+    var input4 = document.getElementById("input4").value;
+
+    var guess = input1 + input2 + input3 + input4;
+    
+    // 중복된 숫자가 있는지 확인
+    var seen = {}; // 중복을 확인할 때 사용할 객체
+    for (var i = 0; i < guess.length; i++) {
+        var digit = guess[i];
+        if (digit in seen) {
+            return true; // 중복이 발견되면 true 반환
+        } else {
+            seen[digit] = true; // 현재 숫자를 객체에 추가
+        }
+    }
+    return false; // 중복이 발견되지 않으면 false 반환
 }
 
 // 입력값 검증 및 처리
@@ -29,14 +43,14 @@ function processInput(inputElement) {
         return;
     }
 
-    if (hasDuplicates(currentInput)) {
+    if (hasDuplicates()) {
         showToast("이미 사용한 숫자입니다. 다른 숫자를 입력하세요.");
         inputElement.value = '';
         return;
     }
 
     // 중복 확인 후에 다음 인풋에 숫자가 없을 때 현재 입력값을 다음 인풋에 입력
-    if (!previousInputs.includes(currentInput) && index < inputs.length - 1 && currentInput !== '' && inputs[index + 1].value === '') {
+    if (!hasDuplicates() && index < inputs.length - 1 && currentInput !== '' && inputs[index + 1].value === '') {
         inputs[index + 1].value = currentInput;
         inputs[index + 1].focus();
     }
@@ -97,7 +111,7 @@ for (var i = 0; i < inputs.length; i++) {
 
 document.getElementById("checkButton").addEventListener("click", handleCheckGuess);
 
-var chances = 10; // 맞출 수 있는 기회
+var chances = chances_lock; 
 var randomNumber = generateRandomNumber(); // 랜덤으로 4자리 숫자 생성
 
 function generateRandomNumber() {
@@ -176,7 +190,7 @@ function displayResult(result, guess) {
     resultDiv.innerHTML += "<p>" + guessString + " - " + resultString + "</p>";
 }
 function resetGame() {
-    chances = 10;
+    chances = chances_lock;
     randomNumber = generateRandomNumber();
     document.getElementById("result").innerHTML = "";
     previousInputs = ['', '', '', ''];
