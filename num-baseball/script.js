@@ -68,15 +68,14 @@ function handleInput(inputElement) {
     inputElement.addEventListener('keydown', function(e) {
         var BS_Press = e.key === "Backspace";
         // 백스페이스 키를 눌렀을 때 뒤로 포커스 이동
-        if (currentInput.length === 0 && !inputElement === 'input1') {
+        if (currentInput.length === 0) {
             if (BS_Press) {
-                var preIndex = index - 1;
-                inputs[preIndex].focus();
+                inputs[index - 1].focus();
             }
         }
     });
     // 중복 확인 후에 다음 인풋에 포커스
-    if (!hasDuplicates() && !inputElement === 'input4') {
+    if (!hasDuplicates()) {
         inputs[index + 1].focus();
     }
 }
