@@ -1,5 +1,4 @@
 var inputs = document.querySelectorAll('.input');
-var previousInputs = ['', '', '', '']; // 이전 입력 추적을 위한 배열
 var chances_lock = 10;// 맞출 수 있는 기회
 
 function showToast(message) {
@@ -164,7 +163,6 @@ function checkGuess() {
 function resetInputs() {
     for (var i = 0; i < inputs.length; i++) {
         inputs[i].value = "";
-        previousInputs[i] = "";
     }
     document.getElementById("input1").focus();
 }
@@ -190,6 +188,5 @@ function resetGame() {
     chances = chances_lock;
     randomNumber = generateRandomNumber();
     document.getElementById("result").innerHTML = "";
-    previousInputs = ['', '', '', ''];
     document.getElementById("input1").focus();
 }
