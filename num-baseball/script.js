@@ -128,34 +128,29 @@ function checkGuess() {
 
     var guess = input1 + input2 + input3 + input4;
 
-    // 사용자 입력이 정답과 일치하는지 확인
-    if (guess === randomNumber) {
-        handleCorrectGuess(); // 정답을 맞췄을 때 처리
-    } else {
-        // 정답이 아닌 경우, 결과 표시
-        var result = compareNumbers(guess, randomNumber);
-        displayResult(result, guess);
-
-        // 맞출 수 있는 기회 감소
-        chances--;
-
-        // 기회 소진 시 게임 종료
-        if (chances === 0) {
-            showToast("게임 오버! 정답은 " + randomNumber + " 입니다.");
-            handleResetGame();
-        }
-    }
-
     // 중복된 숫자 체크 및 결과 표시
     if (hasDuplicates(guess)) {
         showToast("숫자가 중복되었습니다. 다시 입력해주세요.");
         resetInputs();
         return;
-    }
-
-    var result = compareNumbers(guess, randomNumber);
-    displayResult(result, guess);
+    } else if (guess === randomNumber) {
+        handleCorrectGuess(); // 정답을 맞췄을 때 처리
+        } else {
+        // 정답이 아닌 경우, 결과 표시
+            var result = compareNumbers(guess, randomNumber);
+            displayResult(result, guess);
+    
+            // 맞출 수 있는 기회 감소
+            chances--;
+    
+            // 기회 소진 시 게임 종료
+            if (chances === 0) {
+                showToast("게임 오버! 정답은 " + randomNumber + " 입니다.");
+                handleResetGame();
+            }
+        }
 }
+
 function resetInputs() {
     for (var i = 0; i < inputs.length; i++) {
         inputs[i].value = "";
