@@ -32,23 +32,6 @@ function hasDuplicates() {
     return false; // 중복이 발견되지 않으면 false 반환
 }
 
-// 입력값 검증 및 처리
-function processInput(inputElement) {;
-    var currentInput = inputElement.value;
-
-    if (currentInput === '0') {
-        inputElement.value = '';
-        showToast("0은 입력할 수 없습니다. 다른 숫자를 입력하세요.");
-        return;
-    }
-
-    if (hasDuplicates()) {
-        showToast("이미 사용한 숫자입니다. 다른 숫자를 입력하세요.");
-        inputElement.value = '';
-        return;
-    }
-}
-
 // 게임 확인 버튼 클릭 시 처리
 function handleCheckGuess() {
     checkGuess(); // 게임 로직 호출
@@ -61,11 +44,15 @@ function handleResetGame() {
     resetGame(); // 게임 리셋
 }
 
-function handleInput(inputElement) {
-    var index = Array.prototype.indexOf.call(inputs, inputElement);
-    var currentInput = inputElement.value;
+var inputElement = document.getElementById("input1");
+inputElement.addEventListener("focus", function(event) {
+    handleInput(this);
+});
 
+function handleInput(inputElement) {
     inputElement.addEventListener('keydown', function(e) {
+        var index = Array.prototype.indexOf.call(inputs, inputElement);
+        var currentInput = inputElement.value;
         var BS_Press = e.key === "Backspace";
         // 백스페이스 키를 눌렀을 때 뒤로 포커스 이동
         if (currentInput.length === 0) {
@@ -77,6 +64,17 @@ function handleInput(inputElement) {
     // 중복 확인 후에 다음 인풋에 포커스
     if (!hasDuplicates()) {
         inputs[index + 1].focus();
+    }
+    if (currentInput === '0') {
+        inputElement.value = '';
+        showToast("0은 입력할 수 없습니다. 다른 숫자를 입력하세요.");
+        return;
+    }
+
+    if (hasDuplicates()) {
+        showToast("이미 사용한 숫자입니다. 다른 숫자를 입력하세요.");
+        inputElement.value = '';
+        return;
     }
 }
 
@@ -97,7 +95,7 @@ for (var i = 0; i < inputs.length; i++) {
     });
 
     inputs[i].addEventListener('input', function() {
-        processInput(this);
+        handleInput(this);
     });
 }
 
