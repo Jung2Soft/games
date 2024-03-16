@@ -59,6 +59,7 @@ function processInput(inputElement) {
 // 게임 확인 버튼 클릭 시 처리
 function handleCheckGuess() {
     checkGuess(); // 게임 로직 호출
+    resetInputs(); // 사용자 입력 초기화
 }
 
 // 게임 리셋 처리
@@ -170,6 +171,7 @@ function resetInputs() {
         inputs[i].value = "";
         previousInputs[i] = "";
     }
+    document.getElementById("input1").focus();
 }
 function compareNumbers(guess, target) {
     var strike = 0;
