@@ -72,21 +72,16 @@ function handleInput(inputElement) {
     var index = Array.prototype.indexOf.call(inputs, inputElement);
     var currentInput = inputElement.value;
 
-    // 입력값 변경 시 이전 입력 업데이트
-    previousInputs[index] = currentInput;
-
-    // 입력값이 최대 길이에 도달하면 다음 입력칸으로 이동
-    if (currentInput.length >= inputElement.maxLength) {
-        var nextIndex = index + 1;
-        if (nextIndex < inputs.length) {
-            inputs[nextIndex].focus();
+    currentInput.addEventListener('keydown', function(e) {
+        var BS_Press = e.key === "Backspace";
+        // 백스페이스 키를 눌렀을 때 뒤로 포커스 이동
+        if (currentInput.length === 0) {
+            if (BS_Press) {
+                var preIndex = index - 1;
+                inputs[preIndex].focus();
+            }
         }
-    }
-
-    // 백스페이스 키를 눌렀을 때 뒤로 포커스 이동
-    if ((event.keyCode === 8 || event.keyCode === 46) && currentInput === '' && index > 0) {
-        inputs[index - 1].focus();
-    }
+    });
 }
 
 
