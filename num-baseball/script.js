@@ -19,23 +19,6 @@ function hasDuplicates(input) {
     return (/([0-9]).*?\1/).test(input); // 중복된 숫자가 있는지 확인
 }
 
-// 인풋 이벤트 핸들러
-function handleInput(inputElement) {
-    var index = Array.prototype.indexOf.call(inputs, inputElement);
-    var currentInput = inputElement.value;
-
-    // 입력값 변경 시 이전 입력 업데이트
-    previousInputs[index] = currentInput;
-
-    // 입력값이 최대 길이에 도달하면 다음 입력칸으로 이동
-    if (currentInput.length >= inputElement.maxLength) {
-        var nextIndex = index + 1;
-        if (nextIndex < inputs.length) {
-            inputs[nextIndex].focus();
-        }
-    }
-}
-
 // 입력값 검증 및 처리
 function processInput(inputElement) {
     var currentInput = inputElement.value;
@@ -46,21 +29,10 @@ function processInput(inputElement) {
         return;
     }
 
-    if (!validateInput(currentInput)) {
-        showToast("숫자만 입력하세요.");
-        inputElement.value = '';
-        return;
-    }
-
     if (hasDuplicates(currentInput)) {
         showToast("이미 사용한 숫자입니다. 다른 숫자를 입력하세요.");
         inputElement.value = '';
         return;
-    }
-
-    var index = Array.prototype.indexOf.call(inputs, inputElement);
-    if (index === inputs.length - 1 && currentInput !== '') {
-        checkGuess();
     }
 
     // 중복 확인 후에 다음 인풋에 숫자가 없을 때 현재 입력값을 다음 인풋에 입력
@@ -80,10 +52,6 @@ function handleResetGame() {
     resetInputs(); // 사용자 입력 초기화
     resetGame(); // 게임 리셋
 }
-
-var inputs = document.querySelectorAll('.input');
-var previousInputs = ['', '', '', '']; // 이전 입력 추적을 위한 배열
-
 
 function handleInput(inputElement) {
     var index = Array.prototype.indexOf.call(inputs, inputElement);
@@ -148,7 +116,7 @@ function generateRandomNumber() {
 
 function handleCorrectGuess() {
     showToast("축하합니다! 정답을 맞췄습니다.");
-    resetGame();
+    handleResetGame();
 }
 
 
@@ -174,7 +142,7 @@ function checkGuess() {
         // 기회 소진 시 게임 종료
         if (chances === 0) {
             showToast("게임 오버! 정답은 " + randomNumber + " 입니다.");
-            resetGame();
+            handleResetGame();
         }
     }
 
@@ -209,7 +177,7 @@ function compareNumbers(guess, target) {
 function displayResult(result, guess) {
     var resultDiv = document.getElementById("result");
     var guessString = "<span class='guess'>" + guess.toString() + "</span>";
-    var resultString = "<span class='result'>Strike: " + result.strike + ", Ball: " + result.ball + "</span>";
+    var resultString = "<span class='result'>스트라이크: " + result.strike + ", 볼: " + result.ball + "</span>";
     resultDiv.innerHTML += "<p>" + guessString + " - " + resultString + "</p>";
 }
 function resetGame() {
