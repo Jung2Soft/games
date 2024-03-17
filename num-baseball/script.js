@@ -44,8 +44,20 @@ function handleResetGame() {
     resetGame(); // 게임 리셋
 }
 
-var inputElement = document.getElementById("input1");
-inputElement.addEventListener("focus", function(event) {
+var inputEle1 = document.getElementById("input1");
+inputEle1.addEventListener("focus", function(event) {
+    handleInput(this);
+});
+var inputEle2 = document.getElementById("input2");
+inputEle2.addEventListener("focus", function(event) {
+    handleInput(this);
+});
+var inputEle3 = document.getElementById("input3");
+inputEle3.addEventListener("focus", function(event) {
+    handleInput(this);
+});
+var inputEle4 = document.getElementById("input4");
+inputEle4.addEventListener("focus", function(event) {
     handleInput(this);
 });
 
