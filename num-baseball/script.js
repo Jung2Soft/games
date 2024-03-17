@@ -62,9 +62,9 @@ inputEle4.addEventListener("focus", function(event) {
 });
 
 function handleInput(inputElement) {
+    var index = Array.prototype.indexOf.call(inputs, inputElement);
+    var currentInput = inputElement.value;
     inputElement.addEventListener('keydown', function(e) {
-        var index = Array.prototype.indexOf.call(inputs, inputElement);
-        var currentInput = inputElement.value;
         var BS_Press = e.key === "Backspace";
         // 백스페이스 키를 눌렀을 때 뒤로 포커스 이동
         if (currentInput.length === 0) {
