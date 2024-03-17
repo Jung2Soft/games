@@ -44,22 +44,11 @@ function handleResetGame() {
     resetGame(); // 게임 리셋
 }
 
-var inputEle1 = document.getElementById("input1");
-inputEle1.addEventListener("focus", function(event) {
-    handleInput(this);
-});
-var inputEle2 = document.getElementById("input2");
-inputEle2.addEventListener("focus", function(event) {
-    handleInput(this);
-});
-var inputEle3 = document.getElementById("input3");
-inputEle3.addEventListener("focus", function(event) {
-    handleInput(this);
-});
-var inputEle4 = document.getElementById("input4");
-inputEle4.addEventListener("focus", function(event) {
-    handleInput(this);
-});
+function focusInput(self) {
+    var inputElement = document.getElementById(self);
+    inputElement.focus();
+    showToast(inputElement.id);
+}
 
 function handleInput(inputElement) {
     var index = Array.prototype.indexOf.call(inputs, inputElement);
@@ -67,14 +56,19 @@ function handleInput(inputElement) {
     inputElement.addEventListener('keydown', function(e) {
         var BS_Press = e.key === "Backspace";
         // 백스페이스 키를 눌렀을 때 뒤로 포커스 이동
-        if (currentInput.length === 0) {
-            if (BS_Press) {
+       if (BS_Press) {
+            if (index === 3 && currentInput.length === 0) {
+                inputs[index].value = ''; // input4의 텍스트를 지웁니다.
+                // input4의 텍스트가 지워진 후, 이전 input 요소로 포커스를 이동합니다.
+                inputs[index - 1].focus();
+            } else if (index > 0 && index < 3 && currentInput.length === 0) {
+                inputs[index - 1].value = '';
                 inputs[index - 1].focus();
             }
         }
     });
     // 중복 확인 후에 다음 인풋에 포커스
-    if (!hasDuplicates()) {
+    if (!hasDuplicates() && currentInput.length === 1 && !inputs[index].id.includes("input4")) {
         inputs[index + 1].focus();
     }
     if (currentInput === '0') {
@@ -82,7 +76,6 @@ function handleInput(inputElement) {
         showToast("0은 입력할 수 없습니다. 다른 숫자를 입력하세요.");
         return;
     }
-
     if (hasDuplicates()) {
         showToast("이미 사용한 숫자입니다. 다른 숫자를 입력하세요.");
         inputElement.value = '';
@@ -92,25 +85,24 @@ function handleInput(inputElement) {
 
 
 for (var i = 0; i < inputs.length; i++) {
-    inputs[i].addEventListener('input', function() {
-        handleInput(this);
-    });
+
     
     inputs[i].addEventListener('keydown', function(e) {
         var isNumber = /^\d$/.test(e.key);
         var isNavigationalKey = e.key === "Backspace" || e.key === "Delete" || e.key === "ArrowLeft" || e.key === "ArrowRight";
-    
         if (!isNumber && !isNavigationalKey) {
             e.preventDefault();
             showToast("숫자만 입력하세요.");
         }
     });
-
-    inputs[i].addEventListener('input', function() {
+    inputs[i].addEventListener('focus', function() {
         handleInput(this);
     });
 }
-
+document.getElementById("input1").addEventListener("click", focusInput(document.getElementById("input1")));
+document.getElementById("input2").addEventListener("click", focusInput(document.getElementById("input2")));
+document.getElementById("input3").addEventListener("click", focusInput(document.getElementById("input3")));
+document.getElementById("input4").addEventListener("click", focusInput(document.getElementById("input4")));
 document.getElementById("checkButton").addEventListener("click", handleCheckGuess);
 
 var chances = chances_lock; 
@@ -145,26 +137,27 @@ function checkGuess() {
     var guess = input1 + input2 + input3 + input4;
 
     // 중복된 숫자 체크 및 결과 표시
-    if (hasDuplicates(guess)) {
+    if (guess.length < 4) {
+        console.log("숫자를 전부 입력해주세요.");
+        return;
+    } else if (hasDuplicates(guess)) {
         showToast("숫자가 중복되었습니다. 다시 입력해주세요.");
         resetInputs();
         return;
     } else if (guess === randomNumber) {
         handleCorrectGuess(); // 정답을 맞췄을 때 처리
-        } else {
+    } else {
         // 정답이 아닌 경우, 결과 표시
-            var result = compareNumbers(guess, randomNumber);
-            displayResult(result, guess);
-    
-            // 맞출 수 있는 기회 감소
-            chances--;
-    
-            // 기회 소진 시 게임 종료
-            if (chances === 0) {
-                showToast("게임 오버! 정답은 " + randomNumber + " 입니다.");
-                handleResetGame();
-            }
+        var result = compareNumbers(guess, randomNumber);
+        displayResult(result, guess);
+        // 맞출 수 있는 기회 감소
+        chances--;
+        // 기회 소진 시 게임 종료
+        if (chances === 0) {
+            showToast("게임 오버! 정답은 " + randomNumber + " 입니다.");
+            handleResetGame();
         }
+    }
 }
 
 function resetInputs() {
