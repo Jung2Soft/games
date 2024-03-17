@@ -44,12 +44,6 @@ function handleResetGame() {
     resetGame(); // 게임 리셋
 }
 
-function focusInput(self) {
-    var inputElement = document.getElementById(self);
-    inputElement.focus();
-    showToast(inputElement.id);
-}
-
 function handleInput(inputElement) {
     var index = Array.prototype.indexOf.call(inputs, inputElement);
     var currentInput = inputElement.value;
@@ -57,13 +51,14 @@ function handleInput(inputElement) {
         var BS_Press = e.key === "Backspace";
         // 백스페이스 키를 눌렀을 때 뒤로 포커스 이동
        if (BS_Press) {
-            if (index === 3 && currentInput.length === 0) {
-                inputs[index].value = ''; // input4의 텍스트를 지웁니다.
-                // input4의 텍스트가 지워진 후, 이전 input 요소로 포커스를 이동합니다.
-                inputs[index - 1].focus();
+            if (index === 3 && currentInput.length === 1) {
+                inputs[index].value = '';
             } else if (index > 0 && index < 3 && currentInput.length === 0) {
                 inputs[index - 1].value = '';
                 inputs[index - 1].focus();
+            } else if (index === 3 && currentInput.length > 0) {
+                // input4에서 텍스트가 있을 때, 한 번 더 백스페이스 키를 누르면 이전 input 요소로 포커스를 이동합니다.
+                //inputs[index - 1].focus();
             }
         }
     });
@@ -90,19 +85,17 @@ for (var i = 0; i < inputs.length; i++) {
     inputs[i].addEventListener('keydown', function(e) {
         var isNumber = /^\d$/.test(e.key);
         var isNavigationalKey = e.key === "Backspace" || e.key === "Delete" || e.key === "ArrowLeft" || e.key === "ArrowRight";
+        handleInput(this);
         if (!isNumber && !isNavigationalKey) {
             e.preventDefault();
             showToast("숫자만 입력하세요.");
         }
     });
     inputs[i].addEventListener('focus', function() {
-        handleInput(this);
+        console.log(inputs[i] + "포커스됨");
     });
 }
-document.getElementById("input1").addEventListener("click", focusInput(document.getElementById("input1")));
-document.getElementById("input2").addEventListener("click", focusInput(document.getElementById("input2")));
-document.getElementById("input3").addEventListener("click", focusInput(document.getElementById("input3")));
-document.getElementById("input4").addEventListener("click", focusInput(document.getElementById("input4")));
+
 document.getElementById("checkButton").addEventListener("click", handleCheckGuess);
 
 var chances = chances_lock; 
