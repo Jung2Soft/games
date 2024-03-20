@@ -1,5 +1,3 @@
-const grid = document.getElementById('grid');
-
 // Function to check if a number can be placed in a specific position
 function isValid(board, row, col, num) {
     // Check row
@@ -92,18 +90,24 @@ function generateRandomBoard() {
 // Function to generate the sudoku grid with a random board
 function generateGridWithRandomBoard() {
     const randomBoard = generateRandomBoard();
-    const cells = document.querySelectorAll('.cell input');
-    let index = 0;
+    const grid = document.getElementById('grid');
+    grid.innerHTML = ''; // Clear previous grid
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
-            cells[index].value = randomBoard[i][j] === 0 ? '' : randomBoard[i][j];
-            index++;
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            const input = document.createElement('input');
+            input.setAttribute('type', 'text');
+            input.setAttribute('maxlength', '1');
+            input.value = randomBoard[i][j] === 0 ? '' : randomBoard[i][j];
+            cell.appendChild(input);
+            grid.appendChild(cell);
         }
     }
 }
 
 // Solve button click event handler
-function solve() {
+document.getElementById('solveBtn').addEventListener('click', function() {
     const currentBoard = getCurrentBoard();
     if (solveSudoku(currentBoard)) {
         displaySudoku(currentBoard);
@@ -111,24 +115,9 @@ function solve() {
     } else {
         alert("No solution exists for this sudoku!");
     }
-}
+});
 
-// Function to get the current sudoku board from the grid
-function getCurrentBoard() {
-    const cells = document.querySelectorAll('.cell input');
-    let index = 0;
-    const currentBoard = [];
-    for (let i = 0; i < 9; i++) {
-        const row = [];
-        for (let j = 0; j < 9; j++) {
-            const value = cells[index].value.trim() !== '' ? parseInt(cells[index].value.trim()) : 0;
-            row.push(value);
-            index++;
-        }
-        currentBoard.push(row);
-    }
-    return currentBoard;
-}
-
-// Generate grid with random board
-generateGridWithRandomBoard();
+// Generate board button click event handler
+document.getElementById('generateBoardBtn').addEventListener('click', function() {
+    generateGridWithRandomBoard();
+});
