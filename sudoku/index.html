@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sudoku Game</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sudoku Game</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Sudoku Game</h1>
-        <button id="generateBoardBtn">Generate Board</button>
-        <div id="grid" class="grid">
-            <!-- Sudoku grid will be generated here -->
-        </div>
-        <button id="solveBtn">Check Solution</button>
-    </div>
-    <script src="script.js"></script>
+  <button id="generate">스도쿠 생성</button>
+  <button id="validate">스도쿠!</button>
+  <div id="board"></div>
+  <div id="message"></div>
+  <script src="script.js"></script>
 </body>
 </html>
