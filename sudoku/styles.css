@@ -1,34 +1,58 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
 #board {
   display: grid;
-  grid-template-columns: repeat(9, 50px);
-  grid-template-rows: repeat(9, 50px);
+  grid-template-columns: repeat(9, 40px);
+  grid-template-rows: repeat(9, 40px);
   gap: 1px;
+  margin: 20px auto;
+  border: 2px solid #000;
+  width: max-content;
 }
 
 .cell {
-  border: 1px solid black;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
   text-align: center;
-  line-height: 50px;
 }
 
-.cell.input {
-  background-color: lightyellow;
+.cell:nth-child(3n),
+.cell:nth-child(3n-1),
+.cell:nth-child(3n-2),
+.cell:nth-child(9n) {
+  border-right: 2px solid #000;
 }
 
-.cell.input:hover {
-  background-color: #ffff99;
+.cell:nth-child(-n+9),
+.cell:nth-last-child(-n+9),
+.cell:nth-last-child(-n+18),
+.cell:nth-last-child(-n+27) {
+  border-bottom: 2px solid #000;
 }
 
-.cell.selected {
-  background-color: lightblue;
-}
-
-.correct {
-  background-color: lightgreen;
-}
-
-.incorrect {
-  background-color: red;
+#message {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
 }
