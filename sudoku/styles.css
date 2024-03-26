@@ -28,23 +28,62 @@ button:hover {
   align-items: center;
   justify-content: center;
   text-align: center;
-  border: 0px solid #000;
+  font-size: 18px;
+  font-weight: bold;
+  border: 1px solid #000;
 }
 /* 가로 라인 */
 #board .cell:nth-child(n+19):nth-child(-n+27),
 #board .cell:nth-child(n+46):nth-child(-n+54){
-  border-bottom-width: 1px;
+  border-bottom-width: 2px;
 }
 /* 가로 라인 */
 #board .cell:nth-child(n+28):nth-child(-n+36),
 #board .cell:nth-child(n+55):nth-child(-n+63){
-  border-top-width: 1px;
+  border-top-width: 2px;
 }
 
-
 /* 세로 라인 */
-#board .cell:nth-child(n+4):nth-child(-n+13){
-  border-left-width: 1px;
+#board .cell:nth-child(3),
+#board .cell:nth-child(6),
+#board .cell:nth-child(12),
+#board .cell:nth-child(15),
+#board .cell:nth-child(21),
+#board .cell:nth-child(24),
+#board .cell:nth-child(30),
+#board .cell:nth-child(33),
+#board .cell:nth-child(39),
+#board .cell:nth-child(42),
+#board .cell:nth-child(48),
+#board .cell:nth-child(51),
+#board .cell:nth-child(57),
+#board .cell:nth-child(60),
+#board .cell:nth-child(66),
+#board .cell:nth-child(69),
+#board .cell:nth-child(75),
+#board .cell:nth-child(78){
+  border-right-width: 2px;
+}
+/* 세로 라인 */
+#board .cell:nth-child(4),
+#board .cell:nth-child(7),
+#board .cell:nth-child(13),
+#board .cell:nth-child(16),
+#board .cell:nth-child(22),
+#board .cell:nth-child(25),
+#board .cell:nth-child(31),
+#board .cell:nth-child(34),
+#board .cell:nth-child(40),
+#board .cell:nth-child(43),
+#board .cell:nth-child(49),
+#board .cell:nth-child(52),
+#board .cell:nth-child(58),
+#board .cell:nth-child(61),
+#board .cell:nth-child(67),
+#board .cell:nth-child(70),
+#board .cell:nth-child(76),
+#board .cell:nth-child(79){
+  border-left-width: 2px;
 }
 
 
