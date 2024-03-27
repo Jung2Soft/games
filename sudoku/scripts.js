@@ -1,65 +1,68 @@
 let _size = 9;
-let _grille;
+let _SudokuBoard;
+let _original;
+let _hint;
+let _diff = 3;
 function initTab() {
-  let _grille = [];
+  let _SudokuBoard = [];
   for (let i = 0; i < _size; i++) {
-    _grille[i] = new Array(_size).fill(0);
+    _SudokuBoard[i] = new Array(_size).fill(0);
   }
-  return _grille;
+  return _SudokuBoard;
 }
-function isPlaceable_row(n, x, grille) {
+function isPlaceable_row(n, x, SudokuBoard) {
   for (let row = 0; row < _size; row++) {
-    if (grille[x][row] == n) return false;
+    if (SudokuBoard[x][row] == n) return false;
   }
   return true;
 }
-function isPlaceable_column(n, y, grille) {
+function isPlaceable_column(n, y, SudokuBoard) {
   for (let col = 0; col < _size; col++) {
-    if (grille[col][y] == n) return false;
+    if (SudokuBoard[col][y] == n) return false;
   }
   return true;
 }
-function isPlaceable_square(n, x, y, grille) {
+function isPlaceable_square(n, x, y, SudokuBoard) {
   let nb = Math.sqrt(_size);
   let _x = x - (x % nb);
   let _y = y - (y % nb);
   for (let row = _x; row < _x + nb; row++) {
     for (let col = _y; col < _y + nb; col++) {
-      if (grille[row][col] == n) return false;
+      if (SudokuBoard[row][col] == n) return false;
     }
   }
   return true;
 }
-function isValid(n, x, y, grille) {
-  if (grille[x][y] == 0) {
+function isValid(n, x, y, SudokuBoard) {
+  if (SudokuBoard[x][y] == 0) {
     if (
-      isPlaceable_row(n, x, grille) &&
-      isPlaceable_column(n, y, grille) &&
-      isPlaceable_square(n, x, y, grille)
+      isPlaceable_row(n, x, SudokuBoard) &&
+      isPlaceable_column(n, y, SudokuBoard) &&
+      isPlaceable_square(n, x, y, SudokuBoard)
     )
       return true;
   }
   return false;
 }
-function isEmpty(row, col, grille) {
-  if (grille[row][col] == 0) {
+function isEmpty(row, col, SudokuBoard) {
+  if (SudokuBoard[row][col] == 0) {
     return true;
   }
   return false;
 }
-function resolve(position, grille) {
+function resolve(position, SudokuBoard) {
   if (position == _size * _size) return true;
   let row = parseInt(position / _size, 10);
   let col = parseInt(position % _size, 10);
-  if (!isEmpty(row, col, grille)) return resolve(position + 1, grille);
+  if (!isEmpty(row, col, SudokuBoard)) return resolve(position + 1, SudokuBoard);
   let v = [];
   for (let i = 1; i < _size + 1; i++) v.push(i);
   v = shuffle(v);
   for (let i = 0; i < _size; i++) {
-    if (isValid(v[i], row, col, grille)) {
-      grille[row][col] = v[i];
-      if (resolve(position + 1, grille)) return true;
-      grille[row][col] = 0;
+    if (isValid(v[i], row, col, SudokuBoard)) {
+      SudokuBoard[row][col] = v[i];
+      if (resolve(position + 1, SudokuBoard)) return true;
+      SudokuBoard[row][col] = 0;
     }
   }
   return false;
@@ -82,7 +85,7 @@ function getRandomInt(max) {
 }
 function getDifficulty() {
   let res = 0;
-  switch (3) {
+  switch (_diff) {
     case 1:
       res = _size * _size * 0.3;
       break;
@@ -104,16 +107,16 @@ function getDifficulty() {
   }
   return res;
 }
-function generateGrid(reste, grille) {
+function generateGrid(reste, SudokuBoard) {
   let N = reste;
   if (N > 0) {
     let row = getRandomInt(_size);
     let col = getRandomInt(_size);
-    if (grille[row][col] != 0) {
-      grille[row][col] = 0;
+    if (SudokuBoard[row][col] != 0) {
+      SudokuBoard[row][col] = 0;
       N--;
     }
-    generateGrid(N, grille);
+    generateGrid(N, SudokuBoard);
   }
 }
 function displayBoard(board) {
@@ -122,26 +125,63 @@ function displayBoard(board) {
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       const cell = document.createElement("input");
+      cell.type = "tel";
       cell.classList.add("cell");
       cell.value = board[i][j] !== 0 ? board[i][j] : ""; // 0이 아니면 숫자 표시
-      //cell.addEventListener("input", function() {
-      //handleCellInput(i, j, this.value); // 입력 값과 함께 처리
-      //});
       boardContainer.appendChild(cell);
     }
   }
+  const cells = document.querySelectorAll("#board .cell");
+  cells.forEach((cell, index) => {
+    const row = parseInt(index / _size);
+    const col = index % _size;
+    if (board[row][col] == _hint[row][col] && board[row][col] !== 0) {
+      cell.disabled = true;
+    }
+    cell.addEventListener("input", function () {
+      if (isNaN(this.value) || this.value < 1 || this.value > 9) {
+        this.value = ""; // 숫자가 아닌 경우 빈 문자열로 설정
+      } else {
+        handleCellInput(row, col, this.value); // 숫자인 경우에만 처리
+      }
+    });
+  });
+}
+function handleCellInput(row, col, value) {
+  const parsedValue = parseInt(value);
+  let board = getBoard();
+  const CellIndex = row * 9 + col;
+  const cells = document.querySelectorAll("#board .cell");
+  if (!isNaN(parsedValue) && parsedValue >= 1 && parsedValue <= 9) {
+    board[row][col] = parsedValue;
+    if (solveSudoku(board)) {
+      if (isValidSudoku(board)) {
+        message.textContent = "";
+        cells[CellIndex].style.color = "black";
+      } else {
+        message.textContent = "틀린 숫자입니다.";
+        cells[CellIndex].style.color = "red";
+      }
+    } else {
+      message.textContent = "틀린 숫자입니다.";
+      cells[CellIndex].style.color = "red";
+    }
+  } else {
+    board[row][col] = 0; // 유효하지 않은 값이면 0으로 설정
+  }
 }
 function generateSudoku() {
-  let _grille = initTab();
-  resolve(0, _grille);
-  _grilleSoluce = _grille.slice(); // 솔루션 복사
-  generateGrid(getDifficulty(), _grille); // 보드 생성
-  displayBoard(_grille); // 보드 표시
+  message.textContent = "";
+  let _SudokuBoard = initTab();
+  resolve(0, _SudokuBoard);
+  generateGrid(getDifficulty(), _SudokuBoard); // 보드 생성
+  _original = JSON.parse(JSON.stringify(_SudokuBoard));
+  _hint = _SudokuBoard.slice();
+  displayBoard(_SudokuBoard); // 보드 표시
 }
 function isValidSudoku(board) {
-  // 각 행을 검사
   for (let i = 0; i < 9; i++) {
-    let rowSet = new Set();
+    let rowSet = new Set(); // 각 행을 검사
     for (let j = 0; j < 9; j++) {
       if (board[i][j] !== 0 && rowSet.has(board[i][j])) {
         return false; // 중복된 숫자가 있음
@@ -149,9 +189,8 @@ function isValidSudoku(board) {
       rowSet.add(board[i][j]);
     }
   }
-  // 각 열을 검사
   for (let j = 0; j < 9; j++) {
-    let colSet = new Set();
+    let colSet = new Set(); // 각 열을 검사
     for (let i = 0; i < 9; i++) {
       if (board[i][j] !== 0 && colSet.has(board[i][j])) {
         return false; // 중복된 숫자가 있음
@@ -159,9 +198,8 @@ function isValidSudoku(board) {
       colSet.add(board[i][j]);
     }
   }
-  // 각 3x3 그룹을 검사
   for (let k = 0; k < 9; k++) {
-    let boxSet = new Set();
+    let boxSet = new Set(); // 각 3x3 그룹을 검사
     const rowStart = Math.floor(k / 3) * 3;
     const colStart = (k % 3) * 3;
     for (let i = rowStart; i < rowStart + 3; i++) {
@@ -174,14 +212,6 @@ function isValidSudoku(board) {
     }
   }
   return true; // 유효한 스도쿠
-}
-function validateSudoku() {
-  const board = getBoard();
-  if (isValidSudoku(board)) {
-    message.textContent = "Valid Sudoku!";
-  } else {
-    message.textContent = "Invalid Sudoku!";
-  }
 }
 function getBoard() {
   const board = [];
@@ -207,11 +237,10 @@ function findEmptyCell(board) {
   }
   return null; // 빈 셀이 없음
 }
-/* 백트래킹 */
 function solveSudoku(board) {
   const emptyCell = findEmptyCell(board);
   if (!emptyCell) {
-    return true; // 더 이상 빈 셀이 없음 -> 퍼즐이 완료됨
+    return true; // 스도쿠가 완성됨
   }
   const [row, col] = emptyCell;
   for (let num = 1; num <= 9; num++) {
@@ -226,12 +255,35 @@ function solveSudoku(board) {
   return false; // 현재 설정이 해결책이 아님
 }
 function solveSudokubtn() {
-  const board = getBoard();
-  if (solveSudoku(board)) {
-    displayBoard(board);
-    message.textContent = "Solved!";
+  let board = getBoard();
+  if (isValidSudoku(board)) {
+    if (solveSudoku(board)) {
+      displayBoard(board);
+      message.textContent = "스도쿠 정답";
+    } else {
+      message.textContent = "정답이 존재하지 않습니다.";
+    }
   } else {
-    message.textContent = "No solution exists.";
+    board = JSON.parse(JSON.stringify(_original));
+    if (solveSudoku(board)) {
+      displayBoard(board);
+      message.textContent = "스도쿠 정답";
+    } else {
+      message.textContent = "정답이 존재하지 않습니다.";
+    }
+  }
+}
+function validateSudokubtn() {
+  const board = getBoard();
+  const emptyCell = findEmptyCell(board);
+  if (!emptyCell) {
+    if (isValidSudoku(board)) {
+      message.textContent = "풀이성공!";
+    } else {
+      message.textContent = "풀이실패...";
+    }
+  } else {
+    message.textContent = "빈칸을 다 채워주세요!";
   }
 }
 function provideHint() {
@@ -245,23 +297,31 @@ function provideHint() {
     }
   }
   if (emptyCells.length === 0) {
-    message.textContent = "No empty cells to provide hints for.";
+    message.textContent = "힌트를 제공할 빈 칸이 없습니다!";
     return;
   }
-  // 빈 셀 중 무작위로 하나를 선택하여 힌트 제공
   const randomIndex = Math.floor(Math.random() * emptyCells.length);
   const [row, col] = emptyCells[randomIndex];
   const board = getBoard();
   if (solveSudoku(solution)) {
     const hint = solution[row][col];
     board[row][col] = hint;
-    message.textContent = `Hint: Fill cell at row ${row + 1}, column ${
-      col + 1
-    } with value ${hint}.`;
+    _hint[row][col] = hint;
+    message.textContent = `힌트: 세로 ${row + 1}번째, 가로 ${col + 1}번째칸은 ${hint}입니다.`;
     displayBoard(board);
+    const hintCellIndex = row * 9 + col;
+    const cells = document.querySelectorAll("#board .cell");
+    cells[hintCellIndex].classList.add("hint");
   }
 }
+function resetSudoku() {
+  message.textContent = "";
+  _SudokuBoard = JSON.parse(JSON.stringify(_original));
+  _hint = JSON.parse(JSON.stringify(_original));
+  displayBoard(_original);
+}
 document.getElementById("generate").addEventListener("click", generateSudoku);
-document.getElementById("validate").addEventListener("click", validateSudoku);
+document.getElementById("validate").addEventListener("click", validateSudokubtn);
 document.getElementById("hint").addEventListener("click", provideHint);
 document.getElementById("answer").addEventListener("click", solveSudokubtn);
+document.getElementById("reset").addEventListener("click", resetSudoku);
