@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게임 세상</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      text-align: center;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .card-container {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .card {
+      flex: 0 0 auto;
+      width: 300px;
+      margin: 0 10px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.5s ease;
+    }
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .prev {
+      left: 10px;
+    }
+    .next {
+      right: 10px;
+    }
+    .bounce {
+      animation: bounce 0.5s;
+    }
+    @keyframes bounce {
+      0% {
+        transform: translateX(0);
+      }
+      25% {
+        transform: translateX(15px);
+      }
+      50% {
+        transform: translateX(-10px);
+      }
+      75% {
+        transform: translateX(5px);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card-container">
+      <div class="card">
+        <h2>Wordle</h2>
+        <p>한번쯤은 들어봤을 인기 있는 단어 게임! 얼마나 빨리 정답을 맞출 수 있나요?</p>
+        <a href="wordle.html">Wordle 플레이하기</a>
+      </div>
+      <div class="card">
+        <h2>2048</h2>
+        <p>2048 게임은 빈 칸을 움직여 같은 숫자를 합쳐 최대 숫자를 만드는 게임입니다.</p>
+        <a href="2048.html">2048 플레이하기</a>
+      </div>
+      <div class="card">
+        <h2>숫자야구</h2>
+        <p>비밀 숫자를 맞추는 재미있는 게임! 친구들과 함께 누가 먼저 맞출 수 있을까요?</p>
+        <a href="숫자야구.html">숫자야구 플레이하기</a>
+      </div>
+      <div class="card">
+        <h2>스도쿠</h2>
+        <p>전 세계적으로 유명한 스도쿠 게임! 논리력과 집중력을 테스트해보세요.</p>
+        <a href="스도쿠.html">스도쿠 플레이하기</a>
+      </div>
+      <div class="card">
+        <h2>벽돌깨기</h2>
+        <p>옛 추억의 게임, 벽돌깨기! 간단한 조작으로 블록을 깨고 최고 점수를 경신하세요.</p>
+        <a href="벽돌깨기.html">벽돌깨기 플레이하기</a>
+      </div>
+    </div>
+    <button class="prev" onclick="prevCard()">←</button>
+    <button class="next" onclick="nextCard()">→</button>
+  </div>
+
+  <script>
+    let currentIndex = 0;
+    const cards = document.querySelectorAll('.card');
+    const cardContainer = document.querySelector('.card-container');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+    const numCards = cards.length;
+
+    function showCard(index) {
+      if (index < 0 || index >= numCards) return;
+      cardContainer.style.transform = `translateX(-${index * (cards[0].offsetWidth + 20)}px)`;
+      currentIndex = index;
+      if (index === numCards - 1) {
+        cardContainer.classList.add('bounce');
+        setTimeout(() => {
+          cardContainer.classList.remove('bounce');
+        }, 500);
+      }
+    }
+
+    function prevCard() {
+      showCard(currentIndex - 1);
+    }
+
+    function nextCard() {
+      showCard(currentIndex + 1);
+    }
+
+    // Swipe functionality
+    let startX = 0;
+    let endX = 0;
+
+    cardContainer.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    });
+
+    cardContainer.addEventListener('touchmove', (e) => {
+      endX = e.touches[0].clientX;
+    });
+
+    cardContainer.addEventListener('touchend', () => {
+      if (startX - endX > 50) {
+        nextCard();
+      } else if (endX - startX > 50) {
+        prevCard();
+      }
+    });
+  </script>
+</body>
+</html>
