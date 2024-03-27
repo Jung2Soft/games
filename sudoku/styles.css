@@ -4,7 +4,6 @@ body {
   margin: 0;
   padding: 20px;
 }
-
 button {
   margin: 10px;
   padding: 10px 20px;
@@ -15,7 +14,18 @@ button {
   background-color: #4CAF50;
   color: white;
 }
-
+input {
+  max-length: 1;
+}
+input:focus {
+  background: transparent;
+  outline: none; /* 포커스됐을 때 외곽선 제거 */
+}
+input:disabled {
+  opacity : 1;
+    background: #ffffff;
+    color: black;
+}
 button:hover {
   background-color: #45a049;
 }
@@ -31,6 +41,10 @@ button:hover {
   font-size: 18px;
   font-weight: bold;
   border: 1px solid #000;
+  border-radius: 0;
+}
+.cell.hint {
+  color: #3a87fe;
 }
 /* 가로 라인 */
 #board .cell:nth-child(n+19):nth-child(-n+27),
@@ -42,7 +56,6 @@ button:hover {
 #board .cell:nth-child(n+55):nth-child(-n+63){
   border-top-width: 2px;
 }
-
 /* 세로 라인 */
 #board .cell:nth-child(3),
 #board .cell:nth-child(6),
@@ -85,8 +98,6 @@ button:hover {
 #board .cell:nth-child(79){
   border-left-width: 2px;
 }
-
-
 #board {
   display: grid;
   grid-template-columns: repeat(9, auto); /* 각 셀의 크기를 자동으로 조정 */
@@ -97,11 +108,6 @@ button:hover {
   border: 3px solid #000;
   width: max-content;
   height: max-content;
-}
-
-input:focus {
-  background: transparent;
-  outline: none; /* 포커스됐을 때 외곽선 제거 */
 }
 #message {
   margin-top: 20px;
