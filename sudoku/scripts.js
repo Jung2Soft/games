@@ -320,6 +320,7 @@ function resetSudoku() {
   _hint = JSON.parse(JSON.stringify(_original));
   displayBoard(_original);
 }
+
 document.getElementById("generate").addEventListener("click", generateSudoku);
 document.getElementById("validate").addEventListener("click", validateSudokubtn);
 document.getElementById("hint").addEventListener("click", provideHint);
