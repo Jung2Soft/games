@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minesweeper</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="overlay" id="overlay">
+  <div class="overlay-content" id="overlay-content">
+    <p id="overlay-message"></p>
+    <button onclick="startNewGame()">새 게임</button>
+    <div id="difficulty-buttons">
+      <button onclick="setDifficulty('beginner')">초급</button>
+      <button onclick="setDifficulty('intermediate')">중급</button>
+      <button onclick="setDifficulty('expert')">고급</button>
+      <button onclick="setDifficulty('custom')">커스텀</button>
+    </div>
+  </div>
+</div>
+<div class="container" id="container"></div>
+<script src="script.js"></script>
+</body>
+</html>

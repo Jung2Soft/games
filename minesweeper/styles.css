@@ -1,0 +1,68 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #121212;
+  color: #eee;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column; /* 버튼과 보드를 세로로 정렬하기 위해 */
+}
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-bottom: 20px; /* 버튼 아래 여백 */
+}
+.container {
+  display: none; /* 게임 보드는 일단 숨김 */
+  background-color: #444;
+  border: 2px solid #333;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.cell {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #666;
+  text-align: center;
+  line-height: 30px;
+  cursor: pointer;
+  background-color: #777;
+  user-select: none; /* 사용자가 텍스트를 선택하지 못하도록 함 */
+}
+.cell:hover {
+  background-color: #999;
+}
+.cell.clicked {
+  background-color: #999;
+  border-color: #888;
+}
+.flag {
+  color: #f00; /* 깃발 색상 */
+  font-size: 20px;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7); /* 반투명 검은 배경 */
+}
+.overlay-content {
+  background-color: #333;
+  color: #eee;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
