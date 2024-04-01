@@ -74,7 +74,6 @@ class Game {
 		this.updateBallCounter();
 		this.guideball.setHidden();
 		this.guideball.setGray();
-		this.scoreSystem.updateLB();
 		this.startNewTurn();
 	}
 
@@ -147,18 +146,6 @@ class Game {
 			})
 		})
 		this.balls.map(ball => ball.setGray());
-
-		const scoreForm = document.querySelector("#scoreForm");
-		const inputBox = scoreForm.querySelector("input");
-		document.querySelector("#score").innerText = this.scoreSystem.score;
-		inputBox.focus();
-		inputBox.value = "";
-		scoreForm.addEventListener("submit", (e) => {
-			e.preventDefault();
-			this.scoreSystem.submitScore(inputBox.value, this.scoreSystem.score);
-			this.scoreSystem.updateLB();
-			scoreForm.parentElement.removeChild(scoreForm);
-		}, { once: true });
 	}
 
 	movedownBricks() {
@@ -1133,7 +1120,6 @@ class Item {
 class ScoreSystem {
 	constructor() {
 		const savedLeaderBoard = this.getSavedScore();
-		this.leaderBoard = savedLeaderBoard ? JSON.parse(savedLeaderBoard) : [];
 		this.score = 0;
 		this.scoreElm = document.querySelector('.score');
 		this.scoreElm.innerHTML = `현재 기록: ${this.score}`;
@@ -1143,77 +1129,6 @@ class ScoreSystem {
 	setScore(score) {
 		this.score = score;
 		this.scoreElm.innerHTML = `현재 기록: ${this.score}`;
-	}
-
-	submitScore(name, score) {
-		this.leaderBoard.push({ name, score, time: Date.now() });
-		this.leaderBoard.sort((a, b) => {
-			if (a.score === b.score) {
-				return a.time - b.time;
-			} else {
-				return b.score - a.score;
-			}
-		});
-		localStorage.setItem("Swipe", JSON.stringify(this.leaderBoard));
-		this.updateLB();
-	}
-
-	updateLB() {
-		const lb_month = document.querySelector("#lb-month .lb_content");
-		let curItem = lb_month.firstElementChild;
-		let nowDate = new Date(Date.now());
-
-		// 이달의 기록
-		let leaderBoardMonth = this.leaderBoard.filter(elem => {
-			let elemDate = new Date(elem.time);
-			return nowDate.getYear() === elemDate.getYear() && nowDate.getMonth() === elemDate.getMonth();
-		});
-		if (leaderBoardMonth.length === 0) {
-			curItem.classList.remove("hidden");
-		} else {
-			curItem.classList.add("hidden");
-		}
-		let i = 0;
-		leaderBoardMonth.forEach(elem => {
-			if (i >= this.LB_MAX) {
-				return;
-			}
-			let nextltem = curItem.nextElementSibling;
-			if (nextltem === null) {
-				nextltem = this.createLB_Elm();
-				lb_month.appendChild(nextltem);
-			}
-			nextltem.querySelector(".num").innerText = i + 1;
-			nextltem.querySelector(".name").innerText = elem.name;
-			nextltem.querySelector(".score").innerText = elem.score;
-			curItem = nextltem;
-			i += 1;
-		});
-
-		// 명예의 전당
-		const lb_global = document.querySelector("#lb-global .lb_content");
-		curItem = lb_global.firstElementChild;
-		this.leaderBoard.forEach((elem, index) => {
-			if (index >= 5) {
-				return;
-			}
-			curItem.querySelector(".name").innerText = elem.name;
-			curItem.querySelector(".score").innerText = elem.score;
-			curItem = curItem.nextElementSibling;
-		})
-	}
-
-	createLB_Elm() {
-		const lb = document.createElement("div")
-		lb.className = "lb_item";
-		const innerNum = document.createElement("div");
-		innerNum.className = "num";
-		const innerName = document.createElement("div");
-		innerName.className = "name";
-		const innerScore = document.createElement("div");
-		innerScore.className = "score";
-		lb.append(innerNum, innerName, innerScore);
-		return lb;
 	}
 
 	getSavedScore() {
