@@ -45,6 +45,7 @@
       <div id="startBtn" class="button">게임 시작!</div>
       <div id="restartBtn" class="button" style="display: none">다시 시작</div>
       <div id="highScore">최고점수: <span id="highScoreValue">0</span></div>
+      <div id="highScore">현재 점수: <span id="ScoreValue">0</span></div>
     </div>
     <script>
       const canvas = document.getElementById("gameCanvas");
@@ -132,6 +133,7 @@
         pipes.forEach((pipe) => {
           if (pipe.x === bird.x) {
             score++;
+            document.getElementById("ScoreValue").textContent = score;
             if (score > highScore) {
               highScore = score;
               document.getElementById("highScoreValue").textContent = highScore;
@@ -207,6 +209,7 @@
         pipes.splice(0);
         pipeTimer = 0;
         bird.y = canvas.height / 2;
+        document.getElementById("ScoreValue").textContent = score;
         document.getElementById("startBtn").style.display = "none";
         document.getElementById("restartBtn").style.display = "none";
         gameLoop();
