@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Sudoku",
+    "prompt": "Sudoku!",
+    "imageSrc": "images/no-image.png",
+    "altText": "Sudoku",
+    "description": "뇌절 만렙게임",
+    "smalldescription": "",
+    "footnote": "상당한 인기를 자랑하는<br>숫자 로직 퍼즐",
+    "url": "https://jung2soft.github.io/games/sudoku"
+  },
+  {
+    "name": "2048",
+    "prompt": "2048!",
+    "imageSrc": "images/no-image.png",
+    "altText": "2048",
+    "description": "뭐지",
+    "smalldescription": "",
+    "footnote": "상당한 인기를 자랑하는 숫자 퍼즐",
+    "url": "https://jung2soft.github.io/games/2048"
+  },
+  {
+    "name": "벽돌깨기",
+    "prompt": "벽돌깨기!",
+    "imageSrc": "images/no-image.png",
+    "altText": "Swipe",
+    "description": "간단한 벽돌깨기",
+    "smalldescription": "",
+    "footnote": "한때 유행했던 벽돌깨기 게임",
+    "url": "https://jung2soft.github.io/games/brick-break"
+  },
+  {
+    "name": "지뢰찾기",
+    "prompt": "지뢰찾기!",
+    "imageSrc": "images/no-image.png",
+    "altText": "Mine Sweeper",
+    "description": "간단한 논리게임",
+    "smalldescription": "",
+    "footnote": "정해진 규직에 맞춰<br>지뢰를 찾으면 되는 게임",
+    "url": "https://jung2soft.github.io/games/minesweeper"
+  },
+  {
+    "name": "숫자야구",
+    "prompt": "숫자야구!",
+    "imageSrc": "images/no-image.png",
+    "altText": "num-baseball",
+    "description": "찍어맞추기 게임",
+    "smalldescription": "",
+    "footnote": "운좋으면 3턴만에 맞추는<br>숫자 유추 게임",
+    "url": "https://jung2soft.github.io/games/num-baseball"
+  }
+]
