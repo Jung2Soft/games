@@ -2,7 +2,7 @@
   {
     "name": "Sudoku",
     "prompt": "Sudoku!",
-    "imageSrc": "images/no-image.png",
+    "imageSrc": "src/images/no-image.png",
     "altText": "Sudoku",
     "description": "뇌절 만렙게임",
     "smalldescription": "",
@@ -12,7 +12,7 @@
   {
     "name": "2048",
     "prompt": "2048!",
-    "imageSrc": "images/no-image.png",
+    "imageSrc": "src/images/no-image.png",
     "altText": "2048",
     "description": "뭐지",
     "smalldescription": "",
@@ -22,7 +22,7 @@
   {
     "name": "벽돌깨기",
     "prompt": "벽돌깨기!",
-    "imageSrc": "images/no-image.png",
+    "imageSrc": "src/images/no-image.png",
     "altText": "Swipe",
     "description": "간단한 벽돌깨기",
     "smalldescription": "",
@@ -32,7 +32,7 @@
   {
     "name": "지뢰찾기",
     "prompt": "지뢰찾기!",
-    "imageSrc": "images/no-image.png",
+    "imageSrc": "src/images/no-image.png",
     "altText": "Mine Sweeper",
     "description": "간단한 논리게임",
     "smalldescription": "",
@@ -42,7 +42,7 @@
   {
     "name": "숫자야구",
     "prompt": "숫자야구!",
-    "imageSrc": "images/no-image.png",
+    "imageSrc": "src/images/no-image.png",
     "altText": "num-baseball",
     "description": "찍어맞추기 게임",
     "smalldescription": "",
