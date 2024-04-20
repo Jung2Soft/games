@@ -48,5 +48,15 @@
     "smalldescription": "",
     "footnote": "운좋으면 3턴만에 맞추는<br>숫자 유추 게임",
     "url": "https://jung2soft.github.io/games/num-baseball"
+  },
+  {
+    "name": "웹 싱크",
+    "prompt": "웹 싱크!",
+    "imageSrc": "src/images/no-image.png",
+    "altText": "web-synchronize",
+    "description": "웹 두개를 띄우면 두개가 연동됨",
+    "smalldescription": "",
+    "footnote": "이게 진짜 신기함ㄷㄷ<br>디자인 더 예쁘게하면 좋을듯",
+    "url": "https://jung2soft.github.io/games/web-synchronize"
   }
 ]
