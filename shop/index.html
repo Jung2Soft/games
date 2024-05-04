@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>온라인 마켓</title>
+  <style>
+    /* CSS 스타일 */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    
+    .product {
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    
+    .search-box {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
+    <button onclick="searchProducts()">검색</button>
+  </div>
+  
+  <div class="grid-container" id="productGrid">
+    <!-- 제품들이 여기에 동적으로 추가됩니다 -->
+  </div>
+
+  <script>
+    // JavaScript 코드
+    const products = [
+      { id: 1, title: "상품 1" },
+      { id: 2, title: "상품 2" },
+      { id: 3, title: "상품 3" },
+      // 여러 제품들 추가
+    ];
+
+    function displayProducts(productsToShow) {
+      const gridContainer = document.getElementById("productGrid");
+      gridContainer.innerHTML = "";
+
+      productsToShow.forEach(product => {
+        const productElement = document.createElement("div");
+        productElement.classList.add("product");
+        productElement.innerText = `${product.id}. ${product.title}`;
+        gridContainer.appendChild(productElement);
+      });
+    }
+
+    function searchProducts() {
+      const searchInput = document.getElementById("searchInput");
+      const searchTerm = searchInput.value.toLowerCase();
+
+      const filteredProducts = products.filter(product => 
+        product.title.toLowerCase().includes(searchTerm)
+      );
+
+      displayProducts(filteredProducts);
+    }
+
+    // 초기 페이지 로드시 모든 제품 표시
+    displayProducts(products);
+  </script>
+</body>
+</html>
