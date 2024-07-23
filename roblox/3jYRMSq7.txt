@@ -1,0 +1,46 @@
+if game.PlaceId == 2753915549 or game.PlaceId == 4442272183 or game.PlaceId == 7449423635 then -- Blox Fruits
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/Yatsuraa/Yuri/main/Winterhub_V2.lua"))()
+ 
+elseif game.PlaceId == 13772394625 then -- Blade Ball
+    loadstring(game:HttpGet("https://pastebin.com/raw/iHqnrmmE",true))()
+
+elseif game.PlaceId == 920587237 then -- Adopt Me
+    loadstring(game:HttpGet("https://pastebin.com/raw/j9rwNace"))()
+ 
+elseif game.PlaceId == 14433762945 then -- Anime Champions Sim
+    loadstring(game:HttpGetAsync("https://pastebin.com/raw/gRmb9tCM", true))()
+ 
+elseif game.PlaceId == 6872265039 then -- Bed Wars
+    loadstring(game:HttpGet("https://pastebin.com/raw/DzAdmNq1"))()
+ 
+elseif game.PlaceId == 1537690962 then -- Bee Swarm Sim
+    loadstring(game:HttpGet("https://www.macrov2-script.xyz/macrov3.lua"))()
+ 
+elseif game.PlaceId == 9872472334 then -- Evade
+    loadstring(game:HttpGet('https://pastebin.com/raw/KBmL0BhH', true))()
+ 
+elseif game.PlaceId == 13822889 then -- Lumber Tycoon 2
+    loadstring(game:HttpGet('https://pastebin.com/raw/KFRJJLaZ', true))()
+ 
+elseif game.PlaceId == 8737899170 then -- Pet Simulator X
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/REDzHUB/PetSimulator99/main/redz9999.lua"))()
+
+elseif game.PlaceId == 537413528 then -- Build a boat
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/RawParmesan/Parmesan-Hub/main/Loader', true))()
+
+elseif game.PlaceId == 2788229376 then -- Da Hood
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/spacexrandom/Lua/main/DaHood", true))()
+
+elseif game.PlaceId == 606849621 then -- Jailbreak
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Pxsta72/ProjectAuto/main/paid2'))()
+
+elseif game.PlaceId == 142823291 then -- MM2
+    loadstring(game:HttpGet('https://pastebin.com/raw/D79Xr6qt'))()
+
+
+else
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Error";
+        Text = "Game not supported";
+    })
+end
