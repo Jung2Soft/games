@@ -7460,7 +7460,8 @@ end)
         "Shadow-Shadow",
         "Control-Control",
         "Soul-Soul",
-        "Dragon-Dragon"
+        "Dragon-Dragon",
+	"Kitsune-Kitsune"
     }
     
     _G.SelectFruit = ""
